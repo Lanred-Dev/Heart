@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    //Why hello there inspect element guy(or page source guys)!
+    //yk yk just some functions and variables
+
+    let Latest_Announcement = document.getElementById("Latest_Announcement");
+    let Navbar = document.getElementById("Navbar");
+    let Latest_Announcement_Content = document.getElementById("Latest_Announcement_Content");
+    let Latest_Announcement_Close_Button = document.getElementById("Latest_Announcement_Close_Button");
+
+    function Get_Cookie(Cookie_Name) {
+        let Name = `${Cookie_Name}=`;
+        let Cookies = decodeURIComponent(document.cookie).split(";");
+
+        for (let Cookie_Index = 0; Cookie_Index < Cookies.length; Cookie_Index++) {
+            let Cookie = Cookies[Cookie_Index];
+
+            while (Cookie.charAt(0) == " ") {
+                Cookie = Cookie.substring(1);
+            }
+
+            if (Cookie.indexOf(Name) == 0) {
+                return Cookie.substring(Name.length, Cookie.length);
+            }
+        }
+
+        return null;
+    }
+
+    function Check_If_Announcement_Seen(Latest_Announcement) {
+        let Last_Logged = Get_Cookie("Last_Logged_Announcement");
+
+        if (Last_Logged === null || Last_Logged === Latest_Announcement) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

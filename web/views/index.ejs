@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Heart, The Discord Bot For You</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Heart is a bot for the platform Discord with love, fun, currency, utility, meme, and moderation commands!">
+        <meta name="keywords" content="Heart, Heart Bot Discord, Discord Bot">
+        
+        <link rel="stylesheet" href="CSS/Core.css">
+        <link rel="stylesheet" href="CSS/Modals.css">
+        <link rel="stylesheet" href="CSS/Index_Page.css">
+        <link rel="icon" type="image/png" href="Images/Logo.png">
+        
+        <noscript>
+            <style>
+                .simplebar-content-wrapper {
+                    overflow: auto !important;
+                }
+
+                #Loading_Screen {
+                    display: none;
+                }
+
+                #Page_Content {
+                    display: block;
+                }
+            </style>
+        </noscript>
+    </head>
+
+    <body data-simplebar>
+        <%- include("Components/Loading_Screen") -%>
+
+        <div id="Page_Content" style="display: none;">
+            <%- include("Components/Navbar") -%>
+            <%- include("Components/Scripts/Core_Preload") -%>
+            
+            <% if (Lastest_Announcement != null) { %>
+                <%- include("Components/Scripts/Was_Latest_Announcement") -%>
+            <% } else { %>
+                <%- include("Components/Scripts/Was_Not_Latest_Announcement") -%>
+            <% } %>
+
+            <section class="Landing">
+                <div class="Center_Container">
+                    <div class="Section_Container">
+                        <p class="Title">Heart</p>
+                        <p class="Title_Under">The multi-purpose discord bot for your server.</p>
+                    </div>
+                </div>
+
+                <div class="Background"></div>
+            </section>
+
+            <div class="Sections">
+                <div class="Header Sections">
+                    <p class="Title">Features</p>
+                    <p class="Description">Some of the key features Heart has to offer.</p>
+                </div>
+
+                <section class="Section Moderation_Section">
+                    <div class="Info_Container">
+                        <p class="Title">Moderation & Utility</p>
+                        <p class="Description">Keep your server safe with the moderation features Heart has. This allows you to warn users, ban, kick, and mute users. Why you would want to do such things? We have no idea, maybe they just broke the rules or you just really dont like them.</p>
+                        <p class="Description">While your taking care of the moderation side of things you can also use the utility commands to improve user experience! Such as hosting polls, having reaction roles, and many more!</p>
+                    </div>
+
+                    <div class="Preview_Container">
+
+                    </div>
+                </section>
+
+                <section class="Section">
+                    <div class="Preview_Container">
+
+                    </div>
+
+                    <div class="Info_Container Right">
+                        <p class="Title">Currency & Level</p>
+                        <p class="Description">Keep your server safe with the moderation features Heart has. This allows you to warn users, ban, kick, and mute users. Why you would want to do such things? We have no idea, maybe they just broke the rules or you just really dont like them.</p>
+                        <p class="Description">While your taking care of the moderation side of things you can also use the utility commands to improve user experience! Such as hosting polls, having reaction roles, and many more!</p>
+                    </div>
+                </section>
+
+                <section class="Section">
+                    <div class="Info_Container">
+                        <p class="Title">Love, Fun, & Good ol Memes</p>
+                        <p class="Description">Keep your server safe with the moderation features Heart has. This allows you to warn users, ban, kick, and mute users. Why you would want to do such things? We have no idea, maybe they just broke the rules or you just really dont like them.</p>
+                        <p class="Description">While your taking care of the moderation side of things you can also use the utility commands to improve user experience! Such as hosting polls, having reaction roles, and many more!</p>
+                    </div>
+
+                    <div class="Preview_Container">
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="Bot_Stats">
+                <div class="Stat_Container">
+                    <div class="Icon">
+                        <img class="Icon" src="Images/Icons/Server.png" alt="Icon" style="height: 41.05px !important;">
+                    </div>
+
+                    <div class="Content">
+                        <p class="Stat_Info"><%= Server_Count %></p>
+                        <p class="Stat"><% if (Server_Count === 1) { %>Server<% } else { %>Servers<% } %></p>
+                    </div>
+                </div>
+
+                <div class="Stat_Container">
+                    <div class="Icon">
+                        <img class="Icon" src="Images/Icons/Users.png" alt="Icon" style="height: 60px !important;">
+                    </div>
+                    
+                    <div class="Content">
+                        <p class="Stat_Info"><%= Member_Count %></p>
+                        <p class="Stat"><% if (Member_Count === 1) { %>User<% } else { %>Users<% } %></p>
+                    </div>
+                </div>
+            </div>
+
+            <%- include("Components/Bot_Advertisement") -%>
+            <%- include("Components/Footer") -%>
+            <%- include("Components/Modals") -%>
+            <%- include("Components/Banners") -%>
+        </div>
+        
+        <%- include("Components/Scripts/Core") -%>
+    </body>
+</html>
