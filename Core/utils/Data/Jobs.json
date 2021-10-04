@@ -1,0 +1,92 @@
+[{
+    "Name": "Cashier",
+    "Emoji": "🧾",
+    "Pay": 7,
+    "Hire_Difficulty": 1,
+    "Status": "Bluestore is always hiring!",
+    "Rank": 1
+}, {
+    "Name": "Delivery Driver",
+    "Emoji": "🍕",
+    "Pay": 7,
+    "Hire_Difficulty": 1,
+    "Status": "Red restaurant is always hiring people to deliver the food!",
+    "Rank": 1
+}, {
+    "Name": "Housekeeper",
+    "Emoji": "🧹",
+    "Pay": 10,
+    "Hire_Difficulty": 1,
+    "Status": "We need you to come clean our house pls",
+    "Rank": 1
+}, {
+    "Name": "Nurse",
+    "Emoji": "👩‍⚕️",
+    "Pay": 35,
+    "Hire_Difficulty": 10,
+    "Status": "Thats right, we need you, yea you the nurse! Come work for us!",
+    "Rank": 2
+}, {
+    "Name": "Car Salesman",
+    "Emoji": "🚗",
+    "Pay": 20,
+    "Hire_Difficulty": 3,
+    "Status": "we poor, you sell cars",
+    "Rank": 1
+}, {
+    "Name": "Paramedic",
+    "Emoji": "🚑",
+    "Pay": 30,
+    "Hire_Difficulty": 10,
+    "Status": "You! Come help save some lifes!",
+    "Rank": 2
+}, {
+    "Name": "Crack shack owner",
+    "Emoji": ":house_abandoned:",
+    "Pay": 50,
+    "Hire_Difficulty": 15,
+    "Status": "you selling crack?",
+    "Rank": 2
+}, {
+    "Name": "Magician",
+    "Emoji": ":magic_wand:",
+    "Pay": 20,
+    "Hire_Difficulty": 6,
+    "Status": "Want to amaze with your magic tricks?",
+    "Rank": 2
+}, {
+    "Name": "Hacker",
+    "Emoji": ":computer:",
+    "Pay": 100,
+    "Hire_Difficulty": 30,
+    "Status": "*hacking into the main frame*",
+    "Rank": 2
+}, {
+    "Name": "Receptionist",
+    "Emoji": "🧾",
+    "Pay": 9,
+    "Hire_Difficulty": 1,
+    "Status": "Want to just greet people at a desk?",
+    "Rank": 1
+}, {
+    "Name": "Accountant",
+    "Emoji": ":bookmark_tabs:",
+    "Pay": 15,
+    "Hire_Difficulty": 2,
+    "Status": "Keep track of those finacial things!",
+    "Rank": 1
+}, {
+    "Name": "ELON MUSK",
+    "Emoji": "🚀",
+    "Pay": 100000,
+    "Hire_Difficulty": 500,
+    "Status": "we go to space, we make cars, we do EvERytHIng",
+    "Rank": 3
+}, {
+    "Name": "JEFF",
+    "Emoji": ":money_with_wings: :money_mouth:",
+    "Pay": 10000000,
+    "Hire_Difficulty": 10000,
+    "Status": "*jeff*",
+    "Rank": 3
+}]

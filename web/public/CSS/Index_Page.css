@@ -1,0 +1,99 @@
+.Sections .Header.Sections {
+    box-sizing: border-box;
+    padding: 40px;
+    margin-bottom: 20px;
+}
+
+.Sections .Header.Sections .Title {
+    color: var(--Color_1);
+    font-size: 40px;
+    margin-bottom: 2px;
+}
+
+.Sections .Header.Sections .Description {
+    color: var(--Color_4);
+    font-size: 20px;
+}
+
+.Sections .Section {
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 17vw;
+    padding-right: 17vw;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.Sections .Section .Info_Container {
+    box-sizing: border-box;
+    padding-right: 5vw;
+    width: 50%;
+}
+
+.Sections .Section .Info_Container.Right {
+    padding-right: 0vw;
+    padding-left: 5vw;
+}
+
+.Sections .Section .Preview_Container {
+    width: 50%;
+}
+
+.Sections .Section .Info_Container .Title {
+    color: var(--Color_2);
+    font-size: 25px;
+}
+
+.Sections .Section .Info_Container .Description {
+    color: var(--Color_4);
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+.Bot_Stats {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-left: 17vw;
+    padding-right: 17vw;
+    width: 100%;
+}
+
+.Bot_Stats .Stat_Container {
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.Bot_Stats .Stat_Container .Icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    height: 60px;
+}
+
+.Bot_Stats .Stat_Container .Icon img {
+    min-width: 90px;
+    max-width: 90px;
+    image-rendering: optimizeQuality;
+}
+
+.Bot_Stats .Stat_Container .Content {
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.Bot_Stats .Stat_Container .Content .Stat_Info {
+    color: var(--Color_2);
+    font-size: 42px;
+}
+
+.Bot_Stats .Stat_Container .Content .Stat {
+    color: var(--Color_4);
+    font-size: 22px;
+}

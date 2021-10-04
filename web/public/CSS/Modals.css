@@ -1,0 +1,47 @@
+@keyframes Game_Start_Timer_Animation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+        color: var(--Color_1);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Header {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Header .Title {
+    color: var(--Color_2);
+    font-size: 30px;
+    margin-bottom: 2px;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Header .Description {
+    color: var(--Color_4);
+    font-size: 18px;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Game_Container .Timer_Container .Title {
+    color: var(--Color_2);
+    font-size: 50px;
+    animation: Game_Start_Timer_Animation 1s infinite;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Main_Game_Container .Key {
+    transition: background 0.1s, color 0.1s, box-shadow 0.1s, border 0.1s;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Main_Game_Container .Key.Active {
+    background: var(--Color_1);
+    color: var(--Color_2);
+    border: 1px solid #ffffff00;
+    box-shadow: none;
+}

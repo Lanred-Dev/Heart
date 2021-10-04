@@ -1,0 +1,957 @@
+@font-face {
+    font-family: Regular;
+    src: url("Fonts/Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Regular_Bold;
+    src: url("Fonts/Bold.ttf") format("truetype");
+}
+
+@keyframes Loading_Icon_Animation {
+    0% {
+        transform: rotate(0deg);
+
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes Loading_Icon_Main_Animation {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+@keyframes Modal_Animation {
+    0% {
+        top: -500px;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        top: 0px;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes Landing_Background_Animation {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes Dropdown_Menu_Animation {
+    0% {
+        opacity: 0;
+        box-shadow: 0px 0px 0px 0px var(--Color_5);
+        transform: scale(0);
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        box-shadow: 0px 0px 20px 2px var(--Color_5);
+        transform: scale(1);
+    }
+}
+
+:root {
+    --Body_Background: #0c0e11;
+    --Background_Color_1: #14161a;
+    --Background_Color_2: #32353a;
+    --Background_Color_3: #5f343107;
+    --Background_Color_4: #131517;
+    --Background_Color_5: #13151734;
+    --Background_Color_6: #0c0e11;
+    --Color_1: #E81224;
+    --Color_2: #ffffff;
+    --Color_3: #272b30;
+    --Color_4: #454c55;
+    --Color_5: #e8122438;
+    --Color_6: #5c6570;
+}
+
+[data-simplebar] {
+    position: relative;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.simplebar-wrapper {
+    overflow: hidden;
+    width: inherit;
+    height: inherit;
+    max-width: inherit;
+    max-height: inherit;
+}
+
+.simplebar-mask {
+    direction: inherit;
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: auto !important;
+    height: auto !important;
+    z-index: 0;
+}
+
+.simplebar-offset {
+    direction: inherit !important;
+    box-sizing: inherit !important;
+    resize: none !important;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 0px;
+    margin: 0px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.simplebar-content-wrapper {
+    direction: inherit;
+    box-sizing: border-box !important;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.simplebar-content-wrapper::-webkit-scrollbar,
+.simplebar-hide-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.simplebar-content:before,
+.simplebar-content:after {
+    content: ' ';
+    display: table;
+}
+
+.simplebar-placeholder {
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+    pointer-events: none;
+}
+
+.simplebar-height-auto-observer-wrapper {
+    box-sizing: inherit !important;
+    height: 100%;
+    width: 100%;
+    max-width: 1px;
+    position: relative;
+    float: left;
+    max-height: 1px;
+    overflow: hidden;
+    z-index: -1;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+    flex-grow: inherit;
+    flex-shrink: 0;
+    flex-basis: 0;
+}
+
+.simplebar-height-auto-observer {
+    box-sizing: inherit;
+    display: block;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 1000%;
+    width: 1000%;
+    min-height: 1px;
+    min-width: 1px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.simplebar-track {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+[data-simplebar].simplebar-dragging .simplebar-content {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+[data-simplebar].simplebar-dragging .simplebar-track {
+    pointer-events: all;
+}
+
+.simplebar-scrollbar {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    min-height: 10px;
+}
+
+.simplebar-scrollbar:before {
+    position: absolute;
+    content: "";
+    background: #d6dee1;
+    border-radius: 10px;
+    left: 2px;
+    right: 2px;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.simplebar-scrollbar.simplebar-visible:before {
+    opacity: 0.6;
+    transition: opacity 0.15s ease-out;
+}
+
+.simplebar-track.simplebar-vertical {
+    top: 0px;
+    width: 8px;
+    transition: width 0.1s;
+}
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+    top: 2px;
+    bottom: 2px;
+}
+
+.simplebar-track.simplebar-horizontal {
+    left: 0px;
+    height: 8px;
+}
+
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar:before {
+    height: 100%;
+    left: 2px;
+    right: 2px;
+}
+
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar {
+    right: auto;
+    left: 0px;
+    top: 2px;
+    height: 7px;
+    min-height: 0px;
+    min-width: 10px;
+    width: auto;
+}
+
+[data-simplebar-direction="rtl"] .simplebar-track.simplebar-vertical {
+    right: auto;
+    left: 0px;
+}
+
+.hs-dummy-scrollbar-size {
+    direction: rtl;
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    height: 500px;
+    width: 500px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+.simplebar-hide-scrollbar {
+    position: fixed;
+    left: 0px;
+    visibility: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    text-align: center;
+    font-family: Regular;
+    user-select: none;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--Body_Background);
+}
+
+img {
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    max-width: 30%;
+    display: block;
+}
+
+kbd {
+    background-color: #eeeeee;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    box-shadow: 0 1px 1px #00000033, 0 2px 0 0 #ffffffb3 inset;
+    color: #333333;
+    display: inline-block;
+    font-size: .85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+.Page_Center_Align {
+    padding: 10px;
+    padding-left: 17vw;
+    padding-right: 17vw;
+    box-sizing: border-box !important;
+}
+
+.Wave_Container {
+    display: block;
+    overflow: hidden;
+}
+
+.Wave_Container svg {
+    min-height: 40px;
+}
+
+.Scroll_Animation {
+    opacity: 0 !important;
+    transform: translateY(10px);
+    transition: transform 0.7s ease-out, opacity 0.4s ease-out;
+}
+
+.Scroll_Animation.Scroll_Animation_Transform {
+    transform: translateY(30px);
+}
+
+.Scroll_Animation.Scroll_Animation_No_Transform {
+    transform: translateY(0px);
+}
+
+.Scroll_Animation.Scroll_Animation_Delay {
+    transition: transform 0.5s ease-out 0.3s, opacity 0.2s ease-out 0.3s;
+}
+
+.Scroll_Animation.Scroll_Animation_Delay_2 {
+    transition: transform 0.5s ease-out 0.5s, opacity 0.2s ease-out 0.5s;
+}
+
+.Scroll_Animation.Wave_Container {
+    opacity: 1 !important;
+    transform-origin: bottom !important;
+    transform: scale(1, 0.9);
+}
+
+.Scroll_Animation.Wave_Container.Bottom_Wave {
+    transform-origin: top !important;
+}
+
+.Scroll_Animation.Appear {
+    opacity: 1 !important;
+    transform: translateY(0px);
+}
+
+.Bot_Advertisement_Component_Divider {
+    width: 100%;
+    height: 20px;
+}
+
+.Meta_Button {
+    border-radius: 5px;
+    text-decoration: none;
+    box-sizing: border-box;
+    background: var(--Background_Color_1);
+    padding: 13px;
+    font-size: 17px;
+    color: var(--Color_2);
+    transition: background 0.3s, border 0.3s;
+}
+
+.Meta_Button.Small_Padding {
+    padding: 10px;
+}
+
+.Meta_Button.Red {
+    background: var(--Background_Color_1);
+    border: 1px solid #ffffff00;
+}
+
+.Meta_Button.Red:hover {
+    background: none;
+    border: 1px solid var(--Background_Color_1);
+}
+
+.Meta_Button.Black {
+    background: var(--Color_1);
+    border: 1px solid #ffffff00;
+}
+
+.Meta_Button.Black:hover {
+    background: none;
+    border: 1px solid var(--Color_1);
+}
+
+.Text_Effects.Slight_Glow {
+    text-shadow: 0 0 10px var(--Color_2);
+}
+
+.Dropdown {
+    z-index: 1000;
+    position: relative;
+    display: inline-block;
+}
+
+.Dropdown:hover .Content.Dropdown_Menu {
+    display: block;
+}
+
+.Dropdown .Content.Dropdown_Menu {
+    display: none;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 5px;
+    left: -110%;
+    box-shadow: 0px 0px 0px 0px var(--Color_5);
+    background: var(--Background_Color_6);
+    transform-origin: top center;
+    animation: Dropdown_Menu_Animation 0.3s ease-in-out forwards;
+}
+
+.Dropdown .Content.Dropdown_Menu.Right {
+    left: 10%;
+}
+
+.Dropdown .Content.Dropdown_Menu .Item {
+    box-sizing: border-box;
+    padding: 2px;
+    text-decoration: none;
+    color: var(--Color_6);
+    font-size: 14px;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: auto;
+    transition: color 0.3s;
+}
+
+.Dropdown .Content.Dropdown_Menu .Item:hover {
+    color: var(--Color_1);
+}
+
+.Bot_Advertisement {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: var(--Color_1);
+}
+
+.Bot_Advertisement .Label {
+    color: var(--Color_2);
+    font-size: 22.5px;
+    max-width: 30%;
+    margin-left: 35%;
+    width: 100%;
+}
+
+.Bot_Advertisement .Buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Loading_Screen {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000000;
+    background: var(--Body_Background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+#Loading_Screen .Loading_Icon {
+    width: 60px;
+    height: 60px;
+    animation: Loading_Icon_Animation 1.5s linear infinite;
+}
+
+#Loading_Screen .Loading_Icon .Inner_Icon {
+    stroke: var(--Color_1);
+    stroke-linecap: round;
+    animation: Loading_Icon_Main_Animation 1s ease-in-out infinite;
+}
+
+navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 9999;
+    display: block;
+}
+
+.Topbar_Container .Main_Item_Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.Topbar_Container .Content.Cover_Whole {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.Topbar_Container .Background.Cover_Whole {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 16.4vw;
+    padding-right: 16.4vw;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+.Topbar_Container .Latest_Announcement .Content.Announcement .Left_Container {
+    margin-right: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    max-width: 90%;
+}
+
+.Topbar_Container .Latest_Announcement .Content.Announcement .Left_Container .Announcement_Content {
+    font-size: 20px;
+    color: var(--Color_2);
+    text-align: left;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Topbar_Container .Latest_Announcement .Content.Announcement .Content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container .Latest_Announcement .Content.Announcement .Content .Buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container .Latest_Announcement .Content.Announcement .Content .Buttons button {
+    background: none;
+    color: var(--Color_2);
+    font-size: 17px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.Topbar_Container .Latest_Announcement .Background .Content.Background {
+    background: var(--Color_1);
+    z-index: -1;
+    height: 40px;
+    width: 100%;
+    border-radius: 0px 0px 7.5px 7.5px;
+    transition: border-radius 0.3s;
+}
+
+.Topbar_Container .Latest_Announcement.Appear .Background .Content.Background {
+    border-radius: 0px 0px 0px 0px;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Left_Container {
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Left_Container .Logo {
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Left_Container .Title {
+    font-size: 20px;
+    color: var(--Color_2);
+    text-align: left;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .List_Item {
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 1;
+    padding-left: 15px;
+    color: var(--Color_2);
+}
+
+.Topbar_Container .Navbar .Background .Content.Background {
+    border-radius: 0px 0px 7.5px 7.5px;
+    box-shadow: 0px 0px 0px 0px var(--Color_5);
+    background: var(--Background_Color_6);
+    opacity: 0;
+    z-index: -1;
+    height: 60px;
+    width: 100%;
+    transition: box-shadow 0.5s, opacity 0.1s;
+}
+
+.Topbar_Container .Navbar.Appear .Background .Content.Background {
+    box-shadow: 0px 0px 20px 3px var(--Color_5);
+    opacity: 1;
+}
+
+.Landing {
+    width: 100%;
+    height: 100vh;
+    min-height: 250px;
+    position: relative;
+}
+
+.Landing .Center_Container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.Landing .Center_Container .Section_Container {
+    box-sizing: border-box;
+    padding-right: 5vw;
+    padding-left: 5vw;
+}
+
+.Landing .Center_Container .Section_Container .Title {
+    color: var(--Color_2);
+    font-size: 12vh;
+}
+
+.Landing .Center_Container .Section_Container .Title_Under {
+    color: var(--Color_2);
+    font-size: 3vh;
+}
+
+.Landing .Background {
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: absolute;
+    background-image: url("../Images/Background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    animation: Landing_Background_Animation 5s infinite cubic-bezier(0.28, -0.04, 1, 1.08);
+}
+
+.Landing .Background:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    backdrop-filter: blur(35px);
+    pointer-events: none;
+}
+
+.Footer {
+    width: 100%;
+    background: var(--Background_Color_5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+}
+
+.Footer .Left_Container {
+    margin-right: auto;
+}
+
+.Footer .Left_Container .Label {
+    text-align: left;
+    box-sizing: border-box;
+    padding: 2px;
+    font-size: 12.5px;
+    text-decoration: none;
+    color: var(--Color_4);
+}
+
+.Footer .Left_Container .Label a {
+    text-decoration: none;
+    color: var(--Color_4);
+    transition: color 0.3s;
+}
+
+.Footer .Left_Container .Label a:hover {
+    color: var(--Color_1);
+}
+
+.Footer .Left_Container .Bot {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.Footer .Left_Container .Bot .Logo {
+    max-width: 65px;
+    margin-right: 10px;
+}
+
+.Footer .Left_Container .Bot .Title {
+    font-size: 25px;
+    color: var(--Color_2);
+    text-align: left;
+}
+
+.Footer .Left_Container .Bot .Title_Under {
+    font-size: 15px;
+    color: var(--Color_1);
+    text-align: left;
+}
+
+.Footer .Columns {
+    display: flex;
+    justify-content: right;
+    align-items: top;
+}
+
+.Footer .Columns .Column {
+    width: 115px;
+}
+
+.Footer .Columns .Column .Title {
+    color: var(--Color_1);
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.Footer .Columns .Column .Content {
+    display: block;
+}
+
+.Footer .Columns .Column .Content .Link_Container {
+    margin-bottom: 1px;
+}
+
+.Footer .Columns .Column .Content .Link_Container .Link {
+    font-size: 12.5px;
+    text-decoration: none;
+    color: var(--Color_4);
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+.Footer .Columns .Column .Content .Link_Container .Link:hover {
+    color: var(--Color_1);
+}
+
+.Modal {
+    left: 0;
+    top: 0;
+    z-index: 10001;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+    overflow: auto;
+    background: #00000000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.25s;
+}
+
+.Modal.Active {
+    background: #000000cc;
+}
+
+.Modal .Content.Modal_Item {
+    position: relative;
+    width: auto;
+    min-width: 35%;
+    border-radius: 10px;
+    background: var(--Background_Color_1);
+    animation: Modal_Animation 0.4s;
+}
+
+.Modal .Content.Modal_Item .Header.Modal_Item {
+    border-radius: 10px 10px 0px 0px;
+    background: var(--Background_Color_2);
+    padding: 10px;
+    height: 10%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal .Content.Modal_Item .Header.Modal_Item .Title {
+    color: var(--Color_2);
+    font-size: 25px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.Modal .Content.Modal_Item .Body.Modal_Item {
+    background-color: none;
+    padding: 20px;
+    width: 100%;
+    padding: 10px;
+    max-height: 40vh;
+    box-sizing: border-box;
+}
+
+#Cookie_Banner {
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    width: 100%;
+    z-index: 9999;
+    display: none;
+    transition: opacity 0.35s, bottom 0.4s;
+}
+
+#Cookie_Banner .Inner_Container {
+    border-radius: 7.5px;
+    box-shadow: 0px 0px 20px 3px var(--Color_5);
+    background: var(--Background_Color_6);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Cookie_Banner .Inner_Container .Info {
+    color: var(--Color_2);
+    margin-right: auto;
+    font-size: 20px;
+    max-width: 80%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .Page_Center_Align {
+        padding: 30px;
+    }
+
+    .Topbar_Container .Background.Cover_Whole {
+        padding: 0px;
+    }
+
+    .Topbar_Container .Background.Cover_Whole .Content {
+        border-radius: 0px !important;
+    }
+
+    .Topbar_Container .Latest_Announcement .Content.Announcement {
+        padding-top: 8px;
+    }
+
+    .Topbar_Container .Navbar .Content.Navbar {
+        padding-top: 8px;
+    }
+
+    #Cookie_Banner {
+        bottom: 0px;
+        padding: 0px;
+    }
+
+    #Cookie_Banner .Inner_Container {
+        border-radius: 0px;
+    }
+}
