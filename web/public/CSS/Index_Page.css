@@ -1,21 +1,21 @@
-.Sections .Header.Sections {
+.Bot_Features .Header.Sections {
     box-sizing: border-box;
     padding: 40px;
     margin-bottom: 20px;
 }
 
-.Sections .Header.Sections .Title {
+.Bot_Features .Header.Sections .Title {
     color: var(--Color_1);
     font-size: 40px;
     margin-bottom: 2px;
 }
 
-.Sections .Header.Sections .Description {
+.Bot_Features .Header.Sections .Description {
     color: var(--Color_4);
     font-size: 20px;
 }
 
-.Sections .Section {
+.Bot_Features .Section {
     box-sizing: border-box;
     padding: 10px;
     display: flex;
@@ -27,27 +27,27 @@
     width: 100%;
 }
 
-.Sections .Section .Info_Container {
+.Bot_Features .Section .Info_Container {
     box-sizing: border-box;
     padding-right: 5vw;
     width: 50%;
 }
 
-.Sections .Section .Info_Container.Right {
+.Bot_Features .Section .Info_Container.Right {
     padding-right: 0vw;
     padding-left: 5vw;
 }
 
-.Sections .Section .Preview_Container {
+.Bot_Features .Section .Preview_Container {
     width: 50%;
 }
 
-.Sections .Section .Info_Container .Title {
+.Bot_Features .Section .Info_Container .Title {
     color: var(--Color_2);
     font-size: 25px;
 }
 
-.Sections .Section .Info_Container .Description {
+.Bot_Features .Section .Info_Container .Description {
     color: var(--Color_4);
     font-size: 17px;
     margin-top: 10px;

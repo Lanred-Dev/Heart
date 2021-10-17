@@ -407,11 +407,6 @@ kbd {
     transform: translateY(0px);
 }
 
-.Bot_Advertisement_Component_Divider {
-    width: 100%;
-    height: 20px;
-}
-
 .Meta_Button {
     border-radius: 5px;
     text-decoration: none;
@@ -420,6 +415,7 @@ kbd {
     padding: 13px;
     font-size: 17px;
     color: var(--Color_2);
+    cursor: pointer;
     transition: background 0.3s, border 0.3s;
 }
 
@@ -581,8 +577,8 @@ navbar {
     padding: 10px;
     padding-top: 0px;
     padding-bottom: 0px;
-    padding-left: 16.4vw;
-    padding-right: 16.4vw;
+    padding-left: 16vw;
+    padding-right: 16vw;
     position: absolute;
     width: 100%;
     left: 0px;
@@ -669,8 +665,39 @@ navbar {
     font-size: 15px;
     cursor: pointer;
     z-index: 1;
-    padding-left: 15px;
+    margin-right: 15px;
     color: var(--Color_2);
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Account_Details {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Account_Details #Navbar_Account_Details_Username {
+    color: var(--Color_2);
+    font-size: 15px;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Account_Details #Navbar_Account_Details_Icon {
+    max-width: 30px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Login_Button {
+    z-index: 1;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 8.5px;
 }
 
 .Topbar_Container .Navbar .Background .Content.Background {
@@ -716,6 +743,10 @@ navbar {
     font-size: 12vh;
 }
 
+.Landing .Center_Container .Section_Container .Title.Margin {
+    margin-bottom: 15px;
+}
+
 .Landing .Center_Container .Section_Container .Title_Under {
     color: var(--Color_2);
     font-size: 3vh;
@@ -733,6 +764,11 @@ navbar {
     animation: Landing_Background_Animation 5s infinite cubic-bezier(0.28, -0.04, 1, 1.08);
 }
 
+.Landing .Background.No_Image {
+    background-image: none;
+    animation: none;
+}
+
 .Landing .Background:after {
     content: "";
     position: absolute;
@@ -744,6 +780,10 @@ navbar {
     pointer-events: none;
 }
 
+.Landing .Background.No_Image:after {
+    backdrop-filter: none;
+}
+
 .Footer {
     width: 100%;
     background: var(--Background_Color_5);
@@ -752,6 +792,9 @@ navbar {
     align-items: center;
     width: auto;
     height: auto;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .Footer .Left_Container {

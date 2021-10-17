@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Color - Heart</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Heart is a bot for the platform Discord with love, fun, currency, utility, meme, and moderation commands!">
+        <meta name="keywords" content="Heart, Heart Bot Discord, Discord Bot">
+        
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Core.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Modals.css">
+        <link rel="icon" type="image/png" href="http://localhost:3000/Images/Logo.png">
+        
+        <noscript>
+            <style>
+                .simplebar-content-wrapper {
+                    overflow: auto !important;
+                }
+
+                #Loading_Screen {
+                    display: none;
+                }
+
+                #Page_Content {
+                    display: block;
+                }
+            </style>
+        </noscript>
+    </head>
+
+    <body data-simplebar>
+        <%- include("../Components/Loading_Screen") -%>
+
+        <div id="Page_Content" style="display: none;">
+            <%- include("../Components/Navbar") -%>
+            <%- include("../Components/Scripts/Core_Preload") -%>
+            <%- include("../Components/Scripts/Was_Not_Latest_Announcement") -%>
+
+            <section class="Landing">
+                <div class="Center_Container">
+                    <div class="Section_Container">
+                        <p class="Title" id="Title">#000000</p>
+                        <p class="Title_Under" id="Title_Under">The most basic of them all.</p>
+                    </div>
+                </div>
+
+                <div class="Background No_Image" id="Background"></div>
+            </section>
+
+            <%- include("../Components/Footer") -%>
+            <%- include("../Components/Modals") -%>
+        </div>
+        
+        <%- include("../Components/Scripts/Core") -%>
+    </body>
+</html>

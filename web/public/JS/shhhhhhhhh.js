@@ -136,11 +136,11 @@
                 Modal_Content.style["display"] = "block";
             }, 800);
         }
-    }
+    };
 
     Start_Button.onclick = function () {
         if (Modal.style["display"] != "flex" && Current.Game_Started != true) return;
 
         Start_Game();
-    }
+    };
 })();

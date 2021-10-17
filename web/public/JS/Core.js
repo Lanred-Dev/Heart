@@ -19,7 +19,7 @@
     }, Appear_On_Scroll_Options);
 
     function Update_Scroll_Data(Data) {
-        if (Data >= 315) {
+        if (Data >= 315 || Navbar.getAttribute("data-appear")) {
             Navbar.classList.add("Appear");
             Latest_Announcement.classList.add("Appear");
         } else {
@@ -43,15 +43,17 @@
         passive: true
     });
 
-    Cookie_Banner_Close.onclick = function () {
-        document.cookie = "Accepted_Cookie_Banner=1; expires=Thu, 18 Dec 5000 12:00:00 UTC path=/; Secure";
-        Cookie_Banner.style["bottom"] = "-100px";
-        Cookie_Banner.style["opacity"] = "0";
+    if (Cookie_Banner_Close) {
+        Cookie_Banner_Close.onclick = function () {
+            document.cookie = "Accepted_Cookie_Banner=1; expires=Thu, 18 Dec 5000 12:00:00 UTC path=/; Secure";
+            Cookie_Banner.style["bottom"] = "-100px";
+            Cookie_Banner.style["opacity"] = "0";
 
-        setTimeout(function () {
-            Cookie_Banner.style["display"] = "none";
-        }, 400);
-    };
+            setTimeout(function () {
+                Cookie_Banner.style["display"] = "none";
+            }, 400);
+        };
+    }
 
     Update_Scroll_Data(0);
 })();
