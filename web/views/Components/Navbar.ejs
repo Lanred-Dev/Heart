@@ -21,7 +21,7 @@
         <div class="Navbar Main_Item_Container" id="Navbar">
             <div class="Content Navbar Cover_Whole Page_Center_Align">
                 <div class="Left_Container">
-                    <img class="Logo" src="Images/Logo.png" draggable="false" alt="Logo">
+                    <img class="Logo" src="http://localhost:3000/Images/Logo.png" draggable="false" alt="Logo">
 
                     <p class="Title Text_Effects Slight_Glow">Heart</p>
                 </div>
@@ -41,8 +41,18 @@
                                 <a href="index.html" class="Item">Fun & Love Commands</a>
                             </div>
                         </span>
-                        <a class="List_Item">Contact</a>
-                        <a class="List_Item" href="https://discord.com/api/oauth2/authorize?client_id=811107146732273674&permissions=8&scope=bot">Invite</a>
+
+                        <a class="List_Item" href="mailto:contact_heart@gmail.com">Contact</a>
+                        <a class="List_Item">Support</a>
+
+                        <div class="Account_Details">
+                            <div id="Navbar_Account_Details" data-user_details=<%= User %>>
+                                <img id="Navbar_Account_Details_Icon">
+                                <p id="Navbar_Account_Details_Username">User Name</p>
+                            </div>
+
+                            <a class="Meta_Button Black Small_Padding" id="Navbar_Login_Button" onclick="window.open('http://localhost:3000/login', '_blank', 'height=700, width=550, scrollbars=yes');">Login</a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -53,3 +63,5 @@
         </div>
     </div>
 </navbar>
+
+<script type="text/javascript" src="http://localhost:3000/JS/Account_Handler.js"></script>

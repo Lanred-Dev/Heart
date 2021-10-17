@@ -1,26 +1,27 @@
 <script type="text/javascript">
-    if (Check_If_Announcement_Seen("<%= Lastest_Announcement %>") === false) {
-        let Closed = false;
+    (function () {
+        if (Check_If_Announcement_Seen("<%= Lastest_Announcement %>") === false) {
+            let Closed = false;
 
-        Navbar.style["top"] = "40px";
-        Latest_Announcement_Content.innerHTML = "<%= Lastest_Announcement %>";
+            Navbar.style["top"] = "40px";
+            Latest_Announcement_Content.innerHTML = "<%= Lastest_Announcement %>";
 
-        Latest_Announcement_Close_Button.onclick = function () {
-            if (Closed) return;
+            Latest_Announcement_Close_Button.onclick = function () {
+                if (Closed) return;
 
-            Closed = true;
-            Navbar.style["transition"] = "top 0.25s cubic-bezier(0.28, -0.04, 1, 1.08)";
-            Latest_Announcement.style["transition"] = "top 0.25s cubic-bezier(0.28, -0.04, 1, 1.08), opacity 0.4s";
-            Navbar.style["top"] = "0px";
-            Latest_Announcement.style["top"] = "-40px";
-            Latest_Announcement.style["opacity"] = "0";
+                Closed = true;
+                Navbar.style["transition"] = "top 0.2s";
+                Latest_Announcement.style["transition"] = "top 0.2s";
+                Navbar.style["top"] = "0px";
+                Latest_Announcement.style["top"] = "-40px";
 
-            setTimeout(function () {
-                Navbar.style["transition"] = "none";
-                Latest_Announcement.style["display"] = "none";
-            }, 250);
+                setTimeout(function () {
+                    Navbar.style["transition"] = "none";
+                    Latest_Announcement.style["display"] = "none";
+                }, 250);
+            }
+        } else {
+            Latest_Announcement.style["display"] = "none";
         }
-    } else {
-        Latest_Announcement.style["display"] = "none";
-    }
+    })();
 </script>
