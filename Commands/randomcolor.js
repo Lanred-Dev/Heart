@@ -3,7 +3,7 @@ const CanvasAPI = require("canvas");
 
 function Embed(Hex, RGB) {
     const Embed = new DiscordAPI.MessageEmbed()
-        .setDescription("I guess you just like colors")
+        .setDescription(`I guess you just like [colors](http://localhost:3000/features/color?color=${Hex.substring(1)})`)
         .addFields({
             name: "Hex",
             value: Hex,
@@ -20,7 +20,7 @@ function Embed(Hex, RGB) {
 }
 
 function To_RGB(Hex) {
-    var Result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(Hex);
+    const Result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(Hex);
 
     return Result ? {
         R: parseInt(Result[1], 16),
