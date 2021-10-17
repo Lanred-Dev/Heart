@@ -14,10 +14,6 @@ function Info_Embed() {
     const Embed = new DiscordAPI.MessageEmbed()
         .setTitle(":rocket: Space Station Info :rocket:")
         .addFields({
-            name: "Last Updated",
-            value: Last_Update > 0 ? Last_Update + (Last_Update <= 1 ? " minute ago" : " minutes ago") : "now",
-            inline: true
-        }, {
             name: "ISS Latitude",
             value: Info.ISS_Latitude,
             inline: true
@@ -30,27 +26,27 @@ function Info_Embed() {
             value: Info.People_In_Space,
             inline: true
         })
-        .setFooter("Info provided by https://dev.tylermwise.com")
+        .setFooter(`Info provided by https://dev.tylermwise.com • Last updated ${Last_Update > 0 ? Last_Update + (Last_Update <= 1 ? " minute ago" : " minutes ago") : "now"}`)
         .setColor(Global_Embed_Color);
 
     return Embed;
 }
 
-function Update_Info() {
-    fetchAPI("https://api.tylermwise.com/spacedata?lanred=heart")
-        .then(Response => Response.json())
-        .then(Data => {
-            Info.Failed = false;
-            Info.Last_Updated = new Date();
-            Info.ISS_Latitude = Data.iss_latitude;
-            Info.ISS_Longitude = Data.iss_longitude;
-            Info.People_In_Space = Data.people_in_space.toString();
-        })
-        .catch(Error => {
-            Info.Failed = true;
+async function Update_Info() {
+    try {
+        const Response = await fetchAPI("https://api.tylermwise.com/spacedata?lanred=heart");
+        const JSON_Response = await Response.json();
 
-            console.log(`Failed to fetch space data.\nError: ${Error}`);
-        });
+        Info.Failed = false;
+        Info.Last_Updated = new Date();
+        Info.ISS_Latitude = JSON_Response.iss_latitude;
+        Info.ISS_Longitude = JSON_Response.iss_longitude;
+        Info.People_In_Space = JSON_Response.people_in_space.toString();
+    } catch (Error) {
+        Info.Failed = true;
+
+        console.log(`Failed to fetch space data.\nError: ${Error}`);
+    }
 
     setTimeout(function () {
         Update_Info();
@@ -61,17 +57,21 @@ Update_Info();
 
 module.exports = {
     name: "spaceinfo",
-    aliases: ["spacedata"],
+    aliases: ["spacestation", "issinfo"],
     category: "fun",
     setup: "spaceinfo",
     show_aliases: true,
     description: "Want to see info about the **ISS** and the number of people in space? Well this is the command for you!",
 
-    async execute(Message, Message_Args, Client) {        
+    async execute(Message, Message_Args, Client) {
         if (Info.Failed === false) {
-            Message.channel.send({embeds: [Info_Embed()]});
+            Message.channel.send({
+                embeds: [Info_Embed()]
+            });
         } else {
-            Message.channel.send({embeds: [Ambulance_Embed(`${Message.author.toString()}, I failed to fetch the space data. Please try again later.`)]});
+            Message.channel.send({
+                embeds: [Ambulance_Embed(`${Message.author.toString()}, I failed to fetch the space data. Please try again later.`)]
+            });
         };
     }
 };
