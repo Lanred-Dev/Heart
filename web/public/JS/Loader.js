@@ -1,7 +1,7 @@
 (function () {
-    let Loading_Screen = document.getElementById("Loading_Screen");
-    let Page_Content = document.getElementById("Page_Content");
-    let Loading_Screen_Icon = document.getElementById("Loading_Screen_Icon");
+    const Loading_Screen = document.getElementById("Loading_Screen");
+    const Page_Content = document.getElementById("Page_Content");
+    const Loading_Screen_Icon = document.getElementById("Loading_Screen_Icon");
 
     Page_Content.style["display"] = "none";
     Loading_Screen.style["display"] = "flex";

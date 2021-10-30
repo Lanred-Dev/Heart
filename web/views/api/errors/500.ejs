@@ -30,23 +30,25 @@
     </head>
 
     <body data-simplebar>
-        <%- include("../Components/Loading_Screen") -%>
+        <%- include("../../Components/Loading_Screen") -%>
 
         <div id="Page_Content" style="display: none;">
-            <%- include("../Components/Scripts/Core_Preload") -%>
+            <%- include("../../Components/Scripts/Core_Preload") -%>
 
             <section class="Landing">
                 <div class="Center_Container">
                     <div class="Section_Container">
-                        <p class="Title Margin" style="font-size: 70px;">Welcome, <%= Username %></p>
-                        <p class="Title_Under" style="font-size: 22.5px;">You can now close this window.</p>
+                        <p class="Title Margin">500 Interal Server Error</p>
+                        <p class="Title_Under">We failed to process your request.</p>
                     </div>
                 </div>
 
                 <div class="Background Main_Landing"></div>
             </section>
+
+            <%- include("../../Components/Footer") -%>
         </div>
         
-        <%- include("../Components/Scripts/Core") -%>
+        <%- include("../../Components/Scripts/Core") -%>
     </body>
 </html>

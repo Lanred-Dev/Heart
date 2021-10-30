@@ -1,10 +1,22 @@
 <script type="text/javascript">
     (function () {
-        if (Check_If_Announcement_Seen("<%= Lastest_Announcement %>") === false) {
+        function Check_If_Announcement_Seen(Latest_Announcement) {
+            const Last_Logged = Get_Cookie("Last_Logged_Announcement");
+
+            if (Last_Logged === null || Last_Logged != Latest_Announcement) {
+                document.cookie = "Last_Logged_Announcement=0; expires=Thu, 18 Dec 5000 12:00:00 UTC; Secure";
+
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (Check_If_Announcement_Seen("<%= Latest_Announcement.ID %>") === false) {
             let Closed = false;
 
             Navbar.style["top"] = "40px";
-            Latest_Announcement_Content.innerHTML = "<%= Lastest_Announcement %>";
+            Latest_Announcement_Content.innerHTML = "<%= Latest_Announcement.Message %>";
 
             Latest_Announcement_Close_Button.onclick = function () {
                 if (Closed) return;
@@ -14,6 +26,7 @@
                 Latest_Announcement.style["transition"] = "top 0.2s";
                 Navbar.style["top"] = "0px";
                 Latest_Announcement.style["top"] = "-40px";
+                document.cookie = "Last_Logged_Announcement=<%= Latest_Announcement.ID %>; expires=Thu, 18 Dec 5000 12:00:00 UTC; Secure";
 
                 setTimeout(function () {
                     Navbar.style["transition"] = "none";

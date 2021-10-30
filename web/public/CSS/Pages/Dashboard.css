@@ -1,0 +1,108 @@
+.Landing {
+    height: auto !important;
+}
+
+.Landing .Page_Header {
+    width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.Landing .Page_Header {
+    width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.Landing .Page_Header .Title {
+    color: var(--Color_2);
+    font-size: 75px;
+    margin-bottom: 5px;
+}
+
+.Landing .Page_Header .Title_Under {
+    color: var(--Color_1);
+    font-size: 20px;
+}
+
+.Landing .Servers_Container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    justify-items: center;
+    margin-bottom: 50px;
+}
+
+.Landing .Servers_Container .Server_Container {
+    width: 260px;
+}
+
+.Landing .Servers_Container .Server_Container .Header {
+    height: 150px;
+    width: 260px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.Landing .Servers_Container .Server_Container .Header .Content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 260px;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.Landing .Servers_Container .Server_Container .Header .Content .Server_Name {
+    color: var(--Color_2);
+    font-size: 25px;
+}
+
+.Landing .Servers_Container .Server_Container .Header .Content .Server_Member_Count {
+    color: var(--Color_2);
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.Landing .Servers_Container .Server_Container .Header .Background_Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 260px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 7px;
+    z-index: -1;
+}
+
+.Landing .Servers_Container .Server_Container .Header .Background_Container .Background {
+    filter: blur(6px);
+    transform: scale(1.2);
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.Landing .Servers_Container .Server_Container .Content {
+    height: 46px;
+    width: 260px;
+    display: flex;
+    justify-content: flex;
+    align-items: center;
+}
+
+.Landing .Servers_Container .Server_Container .Content .Interact_Button {
+    width: 260px;
+}

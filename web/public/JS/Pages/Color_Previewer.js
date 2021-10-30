@@ -1,6 +1,4 @@
 (function () {
-    Navbar.setAttribute("data-appear", "true");
-
     let Background = document.getElementById("Background");
     let Title = document.getElementById("Title");
     let Title_Under = document.getElementById("Title_Under");

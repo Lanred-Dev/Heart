@@ -1,0 +1,124 @@
+.Main_Section {
+    margin-bottom: 50px;
+}
+
+.Main_Section .Header.Main {
+    box-sizing: border-box;
+    padding: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.Main_Section .Header.Main .Title {
+    color: var(--Color_1);
+    font-size: 40px;
+}
+
+.Main_Section .Header.Main .Description {
+    color: var(--Color_4);
+    font-size: 20px;
+    margin-top: 3px;
+}
+
+.Bot_Features .Section:last-child {
+    margin-bottom: 0px;
+}
+
+.Bot_Features .Section {
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 17vw;
+    padding-right: 17vw;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.Bot_Features .Section .Preview_Container {
+    width: 50%;
+}
+
+.Bot_Features .Section .Info_Container {
+    box-sizing: border-box;
+    padding-right: 5vw;
+    width: 50%;
+}
+
+.Bot_Features .Section .Info_Container.Right {
+    padding-right: 0vw;
+    padding-left: 5vw;
+}
+
+.Bot_Features .Section .Info_Container .Title {
+    color: var(--Color_2);
+    font-size: 25px;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.Bot_Features .Section .Info_Container .Description {
+    color: var(--Color_4);
+    font-size: 17px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.Bot_Stats {
+    box-sizing: border-box;
+    padding: 10px;
+    padding-left: 17vw;
+    padding-right: 17vw;
+    width: 100%;
+}
+
+.Bot_Stats .Stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Bot_Stats .Divider {
+    font-size: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: var(--Color_1);
+}
+
+.Bot_Stats .Stat_Container {
+    box-sizing: border-box;
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.Bot_Stats .Stat_Container .Icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    height: 60px;
+}
+
+.Bot_Stats .Stat_Container .Icon img {
+    min-width: 90px;
+    max-width: 90px;
+    image-rendering: optimizeQuality;
+}
+
+.Bot_Stats .Stat_Container .Content {
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.Bot_Stats .Stat_Container .Content .Stat_Info {
+    color: var(--Color_2);
+    font-size: 42px;
+}
+
+.Bot_Stats .Stat_Container .Content .Stat {
+    color: var(--Color_4);
+    font-size: 22px;
+}

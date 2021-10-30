@@ -1,12 +1,12 @@
 <script type="text/javascript">
-    let Latest_Announcement = document.getElementById("Latest_Announcement");
-    let Navbar = document.getElementById("Navbar");
-    let Latest_Announcement_Content = document.getElementById("Latest_Announcement_Content");
-    let Latest_Announcement_Close_Button = document.getElementById("Latest_Announcement_Close_Button");
+    const Latest_Announcement = document.getElementById("Latest_Announcement");
+    const Navbar = document.getElementById("Navbar");
+    const Latest_Announcement_Content = document.getElementById("Latest_Announcement_Content");
+    const Latest_Announcement_Close_Button = document.getElementById("Latest_Announcement_Close_Button");
 
     function Get_Cookie(Cookie_Name) {
-        let Name = `${Cookie_Name}=`;
-        let Cookies = decodeURIComponent(document.cookie).split(";");
+        const Name = `${Cookie_Name}=`;
+        const Cookies = decodeURIComponent(document.cookie).split(";");
 
         for (let Cookie_Index = 0; Cookie_Index < Cookies.length; Cookie_Index++) {
             let Cookie = Cookies[Cookie_Index];
@@ -21,15 +21,5 @@
         }
 
         return null;
-    }
-
-    function Check_If_Announcement_Seen(Latest_Announcement) {
-        let Last_Logged = Get_Cookie("Last_Logged_Announcement");
-
-        if (Last_Logged === null || Last_Logged === Latest_Announcement) {
-            return false;
-        } else {
-            return true;
-        }
     }
 </script>

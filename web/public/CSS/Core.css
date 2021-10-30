@@ -113,6 +113,7 @@
     height: inherit;
     max-width: inherit;
     max-height: inherit;
+    pointer-events: auto !important;
 }
 
 .simplebar-mask {
@@ -155,6 +156,7 @@
     max-height: 100%;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    pointer-events: auto !important;
 }
 
 .simplebar-content-wrapper::-webkit-scrollbar,
@@ -165,7 +167,7 @@
 
 .simplebar-content:before,
 .simplebar-content:after {
-    content: ' ';
+    content: " ";
     display: table;
 }
 
@@ -316,6 +318,7 @@
     text-align: center;
     font-family: Regular;
     user-select: none;
+    pointer-events: none;
 }
 
 html,
@@ -323,9 +326,7 @@ body {
     height: 100%;
     width: 100%;
     scroll-behavior: smooth;
-}
-
-body {
+    pointer-events: auto;
     background: var(--Body_Background);
 }
 
@@ -338,6 +339,11 @@ img {
     pointer-events: none;
     max-width: 30%;
     display: block;
+}
+
+a, button, input, textarea {
+    pointer-events: auto;
+    user-select: auto;
 }
 
 kbd {
@@ -444,50 +450,7 @@ kbd {
 }
 
 .Text_Effects.Slight_Glow {
-    text-shadow: 0 0 10px var(--Color_2);
-}
-
-.Dropdown {
-    z-index: 1000;
-    position: relative;
-    display: inline-block;
-}
-
-.Dropdown:hover .Content.Dropdown_Menu {
-    display: block;
-}
-
-.Dropdown .Content.Dropdown_Menu {
-    display: none;
-    position: absolute;
-    box-sizing: border-box;
-    padding: 10px;
-    border-radius: 5px;
-    left: -110%;
-    box-shadow: 0px 0px 0px 0px var(--Color_5);
-    background: var(--Background_Color_6);
-    transform-origin: top center;
-    animation: Dropdown_Menu_Animation 0.3s ease-in-out forwards;
-}
-
-.Dropdown .Content.Dropdown_Menu.Right {
-    left: 10%;
-}
-
-.Dropdown .Content.Dropdown_Menu .Item {
-    box-sizing: border-box;
-    padding: 2px;
-    text-decoration: none;
-    color: var(--Color_6);
-    font-size: 14px;
-    white-space: nowrap;
-    margin-left: auto;
-    margin-right: auto;
-    transition: color 0.3s;
-}
-
-.Dropdown .Content.Dropdown_Menu .Item:hover {
-    color: var(--Color_1);
+    text-shadow: 0px 0px 10px var(--Color_2);
 }
 
 .Bot_Advertisement {
@@ -497,19 +460,44 @@ kbd {
     background-color: var(--Color_1);
 }
 
-.Bot_Advertisement .Label {
-    color: var(--Color_2);
-    font-size: 22.5px;
+.Bot_Advertisement .Header {
+    margin-bottom: 20px;
     max-width: 30%;
     margin-left: 35%;
-    width: 100%;
+}
+
+.Bot_Advertisement .Header .Title {
+    color: var(--Color_2);
+    font-size: 22.5px;
+    margin-bottom: 5px;
+}
+
+.Bot_Advertisement .Header .Label {
+    color: var(--Background_Color_1);
+    font-size: 14px;
+}
+
+.Bot_Advertisement .Header .Label a {
+    text-decoration: none;
+    color: var(--Background_Color_1);
+    text-shadow: none;
+    transition: color 0.3s, text-shadow 0.15s;
+}
+
+.Bot_Advertisement .Header .Label a:hover {
+    color: var(--Color_2);
+    text-shadow: 0px 0px 10px var(--Color_2);
 }
 
 .Bot_Advertisement .Buttons {
-    margin-top: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
+}
+
+.Bot_Advertisement .Buttons:last-child {
+    margin-right: 0px;
 }
 
 #Loading_Screen {
@@ -620,7 +608,6 @@ navbar {
     color: var(--Color_2);
     font-size: 17px;
     cursor: pointer;
-    z-index: 1;
 }
 
 .Topbar_Container .Latest_Announcement .Background .Content.Background {
@@ -660,12 +647,15 @@ navbar {
     align-items: center;
 }
 
-.Topbar_Container .Navbar .Content.Navbar .Content .List .List_Item {
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Links .Link:last-child {
+    margin-right: 0px;
+}
+
+.Topbar_Container .Navbar .Content.Navbar .Content .List .Links .Link {
     text-decoration: none;
     font-size: 15px;
     cursor: pointer;
-    z-index: 1;
-    margin-right: 15px;
+    margin-right: 12px;
     color: var(--Color_2);
 }
 
@@ -673,7 +663,7 @@ navbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 10px
+    margin-left: 30px;
 }
 
 .Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Account_Details {
@@ -690,11 +680,10 @@ navbar {
 .Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Account_Details #Navbar_Account_Details_Icon {
     max-width: 30px;
     border-radius: 50%;
-    margin-right: 7px;
+    margin-right: 8.5px;
 }
 
 .Topbar_Container .Navbar .Content.Navbar .Content .List .Account_Details #Navbar_Login_Button {
-    z-index: 1;
     cursor: pointer;
     font-size: 15px;
     padding: 8.5px;
@@ -720,7 +709,6 @@ navbar {
     width: 100%;
     height: 100vh;
     min-height: 250px;
-    position: relative;
 }
 
 .Landing .Center_Container {
@@ -729,7 +717,7 @@ navbar {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
 .Landing .Center_Container .Section_Container {
@@ -740,36 +728,32 @@ navbar {
 
 .Landing .Center_Container .Section_Container .Title {
     color: var(--Color_2);
-    font-size: 12vh;
-}
-
-.Landing .Center_Container .Section_Container .Title.Margin {
-    margin-bottom: 15px;
+    font-size: 112px;
 }
 
 .Landing .Center_Container .Section_Container .Title_Under {
     color: var(--Color_2);
-    font-size: 3vh;
+    font-size: 25px;
 }
 
-.Landing .Background {
+.Landing .Background.Main_Landing {
     width: 100%;
     height: 100%;
     z-index: -1;
     position: absolute;
-    background-image: url("../Images/Background.png");
+    background-image: url("http://localhost:3000/Images/Background.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     animation: Landing_Background_Animation 5s infinite cubic-bezier(0.28, -0.04, 1, 1.08);
 }
 
-.Landing .Background.No_Image {
+.Landing .Background.Main_Landing.No_Image {
     background-image: none;
     animation: none;
 }
 
-.Landing .Background:after {
+.Landing .Background.Main_Landing:after {
     content: "";
     position: absolute;
     width: 100%;
@@ -777,7 +761,6 @@ navbar {
     left: 0px;
     top: 0px;
     backdrop-filter: blur(35px);
-    pointer-events: none;
 }
 
 .Landing .Background.No_Image:after {
@@ -805,7 +788,7 @@ navbar {
     text-align: left;
     box-sizing: border-box;
     padding: 2px;
-    font-size: 12.5px;
+    font-size: 13px;
     text-decoration: none;
     color: var(--Color_4);
 }
@@ -836,6 +819,7 @@ navbar {
     font-size: 25px;
     color: var(--Color_2);
     text-align: left;
+    margin-bottom: 2px;
 }
 
 .Footer .Left_Container .Bot .Title_Under {
@@ -850,13 +834,23 @@ navbar {
     align-items: top;
 }
 
+.Footer .Columns .Column:first-child {
+    margin-left: 0px;
+}
+
+.Footer .Columns .Column:last-child {
+    margin-right: 0px;
+}
+
 .Footer .Columns .Column {
-    width: 115px;
+    width: 100px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .Footer .Columns .Column .Title {
     color: var(--Color_1);
-    font-size: 16px;
+    font-size: 17px;
     margin-bottom: 5px;
 }
 
@@ -865,11 +859,11 @@ navbar {
 }
 
 .Footer .Columns .Column .Content .Link_Container {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 .Footer .Columns .Column .Content .Link_Container .Link {
-    font-size: 12.5px;
+    font-size: 13px;
     text-decoration: none;
     color: var(--Color_4);
     white-space: nowrap;
@@ -880,92 +874,8 @@ navbar {
     color: var(--Color_1);
 }
 
-.Modal {
-    left: 0;
-    top: 0;
-    z-index: 10001;
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: fixed;
-    overflow: auto;
-    background: #00000000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.25s;
-}
-
-.Modal.Active {
-    background: #000000cc;
-}
-
-.Modal .Content.Modal_Item {
-    position: relative;
-    width: auto;
-    min-width: 35%;
-    border-radius: 10px;
-    background: var(--Background_Color_1);
-    animation: Modal_Animation 0.4s;
-}
-
-.Modal .Content.Modal_Item .Header.Modal_Item {
-    border-radius: 10px 10px 0px 0px;
-    background: var(--Background_Color_2);
-    padding: 10px;
-    height: 10%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.Modal .Content.Modal_Item .Header.Modal_Item .Title {
-    color: var(--Color_2);
-    font-size: 25px;
-    -khtml-user-select: none;
-    -o-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.Modal .Content.Modal_Item .Body.Modal_Item {
-    background-color: none;
-    padding: 20px;
-    width: 100%;
-    padding: 10px;
-    max-height: 40vh;
-    box-sizing: border-box;
-}
-
-#Cookie_Banner {
-    position: fixed;
-    bottom: 20px;
-    left: 0px;
-    width: 100%;
-    z-index: 9999;
-    display: none;
-    transition: opacity 0.35s, bottom 0.4s;
-}
-
-#Cookie_Banner .Inner_Container {
-    border-radius: 7.5px;
-    box-shadow: 0px 0px 20px 3px var(--Color_5);
-    background: var(--Background_Color_6);
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#Cookie_Banner .Inner_Container .Info {
-    color: var(--Color_2);
-    margin-right: auto;
-    font-size: 20px;
-    max-width: 80%;
+.Footer .Columns .Column .Content .Link_Container:last-child {
+    margin-bottom: 0px;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -987,14 +897,5 @@ navbar {
 
     .Topbar_Container .Navbar .Content.Navbar {
         padding-top: 8px;
-    }
-
-    #Cookie_Banner {
-        bottom: 0px;
-        padding: 0px;
-    }
-
-    #Cookie_Banner .Inner_Container {
-        border-radius: 0px;
     }
 }

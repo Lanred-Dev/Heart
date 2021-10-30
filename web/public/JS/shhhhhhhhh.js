@@ -1,19 +1,19 @@
 //hey! keep this one a secret.
 
 (function () {
-    let Modal = document.getElementById("Spacebar_Modal");
-    let Modal_Content = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Modal_Content");
-    let Start_Button = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Start_Button");
-    let Spacebar_Key_Visual = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Spacebar_Key");
-    let Game_Timer = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Game_Timer");
-    let Score_Counter = document.getElementById("Super_Secret_Hidden_Space_Bar_Game_Score");
-    let Game = document.getElementById("Super_Secret_Hidden_Spacebar_Game");
-    let Menu = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Menu");
-    let Start_Timer = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Start_Timer");
-    let Start_Timer_Container = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Timer_Container");
-    let Game_Container = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Main_Game_Container");
-    let High_Score_Label = document.getElementById("Super_Secret_Hidden_Spacebar_Game_High_Score");
-    let Last_Game_Score_Label = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Last_Game_Score");
+    const Modal = document.getElementById("Spacebar_Modal");
+    const Modal_Content = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Modal_Content");
+    const Start_Button = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Start_Button");
+    const Spacebar_Key_Visual = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Spacebar_Key");
+    const Game_Timer = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Game_Timer");
+    const Score_Counter = document.getElementById("Super_Secret_Hidden_Space_Bar_Game_Score");
+    const Game = document.getElementById("Super_Secret_Hidden_Spacebar_Game");
+    const Menu = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Menu");
+    const Start_Timer = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Start_Timer");
+    const Start_Timer_Container = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Timer_Container");
+    const Game_Container = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Main_Game_Container");
+    const High_Score_Label = document.getElementById("Super_Secret_Hidden_Spacebar_Game_High_Score");
+    const Last_Game_Score_Label = document.getElementById("Super_Secret_Hidden_Spacebar_Game_Last_Game_Score");
     let Current = {
         Game_Started: false,
         Score: 0,
@@ -118,7 +118,7 @@
     }, true);
 
     window.onclick = function (Event) {
-        if (Event.target == Modal && Current.Game_Started != true) {
+        if (Event.target === Modal && Current.Game_Started != true) {
             Modal.classList.remove("Active");
             Modal_Content.style["transition"] = "transform 0.4s, opacity 0.4s";
             Modal_Content.style["transform"] = "scale(0.8)";

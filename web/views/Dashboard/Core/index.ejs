@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Heart</title>
+        <title>Dashboard - Heart</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,8 @@
         
         <link rel="stylesheet" href="http://localhost:3000/CSS/Core.css">
         <link rel="stylesheet" href="http://localhost:3000/CSS/Modals.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Pages/Index.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Pages/Dashboard.css">
         <link rel="icon" type="image/png" href="http://localhost:3000/Images/Logo.png">
         
         <noscript>
@@ -29,24 +31,22 @@
         </noscript>
     </head>
 
-    <body data-simplebar>
-        <%- include("../Components/Loading_Screen") -%>
+    <body data-simplebar data-navbar_appear="true">
+        <%- include("../../Components/Loading_Screen") -%>
 
         <div id="Page_Content" style="display: none;">
-            <%- include("../Components/Scripts/Core_Preload") -%>
+            <%- include("../../Components/Navbar") -%>
+            <%- include("../../Components/Scripts/Core_Preload") -%>
+            <%- include("../../Components/Scripts/Was_Not_Latest_Announcement") -%>
 
-            <section class="Landing">
-                <div class="Center_Container">
-                    <div class="Section_Container">
-                        <p class="Title Margin" style="font-size: 70px;">Welcome, <%= Username %></p>
-                        <p class="Title_Under" style="font-size: 22.5px;">You can now close this window.</p>
-                    </div>
-                </div>
-
-                <div class="Background Main_Landing"></div>
+            <section class="Dashboard">
+                
             </section>
+
+            <%- include("../../Components/Footer") -%>
+            <%- include("../../Components/Modals") -%>
         </div>
         
-        <%- include("../Components/Scripts/Core") -%>
+        <%- include("../../Components/Scripts/Core") -%>
     </body>
 </html>

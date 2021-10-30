@@ -29,13 +29,18 @@
         </noscript>
     </head>
 
-    <body data-simplebar>
+    <body data-simplebar data-navbar_appear="true">
         <%- include("../Components/Loading_Screen") -%>
 
         <div id="Page_Content" style="display: none;">
             <%- include("../Components/Navbar") -%>
             <%- include("../Components/Scripts/Core_Preload") -%>
-            <%- include("../Components/Scripts/Was_Not_Latest_Announcement") -%>
+            
+            <% if (Latest_Announcement != null) { %>
+                <%- include("../Components/Scripts/Was_Latest_Announcement") -%>
+            <% } else { %>
+                <%- include("../Components/Scripts/Was_Not_Latest_Announcement") -%>
+            <% } %>
 
             <section class="Landing">
                 <div class="Center_Container">
@@ -53,5 +58,6 @@
         </div>
         
         <%- include("../Components/Scripts/Core") -%>
+        <script type="text/javascript" src="http://localhost:3000/JS/Pages/Color_Previewer.js"></script>
     </body>
 </html>

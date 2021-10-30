@@ -1,1 +1,91 @@
-coming soon
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Dashboard - Heart</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Heart is a bot for the platform Discord with love, fun, currency, utility, meme, and moderation commands!">
+        <meta name="keywords" content="Heart, Heart Bot Discord, Discord Bot">
+        
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Core.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Modals.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Pages/Index.css">
+        <link rel="stylesheet" href="http://localhost:3000/CSS/Pages/Dashboard.css">
+        <link rel="icon" type="image/png" href="http://localhost:3000/Images/Logo.png">
+        
+        <noscript>
+            <style>
+                .simplebar-content-wrapper {
+                    overflow: auto !important;
+                }
+
+                #Loading_Screen {
+                    display: none;
+                }
+
+                #Page_Content {
+                    display: block;
+                }
+            </style>
+        </noscript>
+    </head>
+
+    <body data-simplebar data-navbar_appear="true">
+        <%- include("../Components/Loading_Screen") -%>
+
+        <div id="Page_Content" style="display: none;">
+            <%- include("../Components/Navbar") -%>
+            <%- include("../Components/Scripts/Core_Preload") -%>
+
+            <% if (Latest_Announcement != null) { %>
+                <%- include("../Components/Scripts/Was_Latest_Announcement") -%>
+            <% } else { %>
+                <%- include("../Components/Scripts/Was_Not_Latest_Announcement") -%>
+            <% } %>
+
+            <section class="Landing">
+                <div class="Page_Header Page_Center_Align">
+                    <p class="Title">Dashboard</p>
+                    <p class="Title_Under">What shall we do today?</p>
+                </div>
+
+                <div class="Servers_Container Page_Center_Align">
+                    <% for (const Server in Guilds) { %>
+                        <% if (Guilds[Server].permissions === "1099511627775" || Guilds[Server].owner === true) { %>
+                            <div class="Server_Container">
+                                <div class="Header">
+                                    <div class="Content">
+                                        <div>
+                                            <p class="Server_Name"><%= Guilds[Server].name %></p>
+                                            <% if (Guilds[Server].member_count != null) { %>
+                                                <p class="Server_Member_Count"><%= Guilds[Server].member_count %> <% if (Guilds[Server].member_count === 1) { %>member<% } else { %>members<% } %></p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="Background_Container">
+                                        <div class="Background" style="background-image: url('<%= Guilds[Server].icon %>')"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="Content">
+                                    <% if (Guilds[Server].bot_is_in != null) { %>
+                                        <a class="Interact_Button Meta_Button Black Small_Padding" href="http://localhost:3000/dashboard/<%= Guilds[Server].id %>">Dashboard</a>
+                                    <% } else { %>
+                                        <button class="Interact_Button Meta_Button Black Small_Padding" onclick="window.open('https://discord.com/api/oauth2/authorize?client_id=811107146732273674&permissions=8&scope=bot&guild_id=<%= Guilds[Server].id %>', '_blank', 'height=700, width=550, scrollbars=yes');">Setup</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+            </section>
+
+            <%- include("../Components/Footer") -%>
+            <%- include("../Components/Modals") -%>
+        </div>
+        
+        <%- include("../Components/Scripts/Core") -%>
+    </body>
+</html>

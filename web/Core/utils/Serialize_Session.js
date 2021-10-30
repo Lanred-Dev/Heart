@@ -1,34 +1,19 @@
 const fsAPI = require("fs");
-const Session_Database = JSON.parse(fsAPI.readFileSync("web/Core/Databases/Session.json"));
+const oauth_Database = Global_Databases.oauth;
+const Sessions_Database = Global_Databases.Sessions;
 
 function Get_Database_Session(ID) {
-    if (!ID) return null;
-
-    var Data = null;
-
-    Session_Database.forEach(Gotten_Session => {
-        if (Gotten_Session.session_id === ID || JSON.parse(Gotten_Session.data).id === ID) {
-            Data = Gotten_Session;
-        }
-    });
-
-    return Data;
+    return Sessions_Database.find(Session => Session.data === ID);
 }
 
-function Update_Database_Session(Data, User_ID) {
+function Update_Database_Session(User_ID, Data) {
     if (!Data || !User_ID) return;
 
-    var Index = -1;
-
-    Session_Database.forEach(Gotten_Session => {
-        Index++;
-
-        if (JSON.parse(Gotten_Session.data).id === User_ID) {
-            Session_Database[Index] = Data;
+    Sessions_Database.forEach((_, Index) => {
+        if (oauth_Database.find(User => User.id === User_ID) != null) {
+            Sessions_Database[Index] = Data;
         }
     });
-
-    fsAPI.writeFileSync("web/Core/Databases/Session.json", JSON.stringify(Session_Database, null, 0));
 }
 
 module.exports = {
@@ -38,21 +23,20 @@ module.exports = {
         Request.session.user = User;
         Request.user = User;
 
-        if (Get_Database_Session(User.id) === null) {
-            Session_Database.push({
+        if (!Get_Database_Session(User.id)) {
+            Sessions_Database.push({
                 session_id: Request.sessionID,
                 expires_at: Request.session.cookie.expires,
-                data: JSON.stringify(User)
+                data: User.id
             });
         } else {
-            Update_Database_Session({
+            Update_Database_Session(User.id, {
                 session_id: Request.sessionID,
                 expires_at: Request.session.cookie.expires,
-                data: JSON.stringify(User)
-            }, User.id);
+                data: User.id
+            });
         }
 
-        fsAPI.writeFileSync("web/Core/Databases/Session.json", JSON.stringify(Session_Database, null, 0));
-        return Get_Database_Session(Request.sessionID);
+        fsAPI.writeFileSync("web/Core/Databases/Session.json", JSON.stringify(Sessions_Database, null, 0));
     }
 };
