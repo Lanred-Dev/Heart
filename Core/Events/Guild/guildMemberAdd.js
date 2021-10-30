@@ -12,8 +12,6 @@ function Welcome_Embed(Message, Server) {
 };
 
 module.exports = async (Client, Member) => {
-    return;
-
     if (!Welcome_Database[Member.guild.id]) Welcome_Database[Member.guild.id] = {
         welcome: {
             role: null,

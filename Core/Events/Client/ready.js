@@ -1,6 +1,7 @@
 const DiscordAPI = require("discord.js");
 const fsAPI = require("fs");
 const Prefix = process.env.PREFIX;
+const Get_Global_Member_Count = Global_Functions.Get_Global_Member_Count;
 const Activities = [{
     Status: "{Server_Count}",
     Type: "WATCHING"
@@ -24,8 +25,8 @@ global.Update_Info = {
 };
 const Bot_Down = false;
 global.Levels_Reach = [];
-global.Moderation_Database = JSON.parse(fsAPI.readFileSync("Core/Databases/Moderation-Database.json"));
-global.Users_Database = JSON.parse(fsAPI.readFileSync("Core/Databases/Users-Database.json"));
+global.Moderation_Database = JSON.parse(fsAPI.readFileSync("Core/Databases/Moderation-Database.json")),
+global.Users_Database = JSON.parse(fsAPI.readFileSync("Core/Databases/Users-Database.json")),
 global.Commands_Info = {
     Cooldowns: {},
     Role_Permissions: {}
@@ -63,12 +64,7 @@ function Bot_Down_Embed(Info) {
 }
 
 function New_Status(Current, Client) {
-    var Member_Count = 0;
-
-    Client.guilds.cache.forEach(Guild => {
-        Member_Count += Guild.memberCount;
-    });
-
+    const Member_Count = Get_Global_Member_Count(Client);
     const Type = Activities[Current].Type;
     const Status = Activities[Current].Status;
     const Member_Replace = Status.replace(/{Total_Member_Count}/g, Member_Count === 1 ? `${Member_Count} user` : `${Member_Count} users`);

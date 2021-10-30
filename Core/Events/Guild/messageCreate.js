@@ -64,7 +64,27 @@ module.exports = async (Client, Message) => {
             enabled: false,
             multiplier: 1
         },
-        disabled_commands: []
+        disabled_commands: [],
+        welcome: {
+            message: null,
+            channel: null,
+            embed: null,
+            thumbnail: null,
+            icon: null,
+            footer: null,
+            color: null,
+            title: null,
+        },
+        leave: {
+            message: null,
+            channel: null,
+            embed: null,
+            thumbnail: null,
+            icon: null,
+            footer: null,
+            color: null,
+            title: null,
+        }
     };
     if (!Users_Database.Currency[Message.author.id]) {
         Users_Database.Currency[Message.author.id] = {

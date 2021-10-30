@@ -18,7 +18,13 @@ const Channel_Names = [
     "general-chat",
     "generalchat",
     "welcome-messages",
-    "welcomemessages"
+    "welcomemessages",
+    "staff",
+    "staffchat",
+    "staff-chat",
+    "logs",
+    "log-messages",
+    "logmessages"
 ];
 const Prefix = process.env.PREFIX;
 
@@ -79,19 +85,55 @@ function Join_Embed(Guild) {
 }
 
 module.exports = async (Guild) => {
-    var Channel = null;
+    if (!Moderation_Database[Message.guild.id]) Moderation_Database[Message.guild.id] = {
+        log_channel: null,
+        warns: {},
+        appeal_statement: "None",
+        bot_updates: {
+            enabled: false,
+            channel: null
+        },
+        currency_system: false,
+        level_system: {
+            enabled: false,
+            multiplier: 1
+        },
+        disabled_commands: [],
+        welcome: {
+            message: null,
+            channel: null,
+            embed: null,
+            thumbnail: null,
+            icon: null,
+            footer: null,
+            color: null,
+            title: null,
+        },
+        leave: {
+            message: null,
+            channel: null,
+            embed: null,
+            thumbnail: null,
+            icon: null,
+            footer: null,
+            color: null,
+            title: null,
+        }
+    };
+
+    var Welcome_Message_Channel = null;
 
     for (var Current = 0; Current < Channel_Names.length; Current++) {
         Guild.channels.cache.forEach(Gotten_Channel => {
             if (Gotten_Channel.deleted != true) {                
                 if (String_Similarity(Gotten_Channel.name.toLowerCase(), Channel_Names[Current]) >= 0.75) {
-                    return Channel = Gotten_Channel;
+                    return Welcome_Message_Channel = Gotten_Channel;
                 }
             }
         });
     }
 
-    if (!Channel) return;
+    if (!Welcome_Message_Channel) return;
 
-    Channel.send({embeds: [Join_Embed(Channel.guild.name)]}).catch();
+    Welcome_Message_Channel.send({embeds: [Join_Embed(Channel.guild.name)]}).catch();
 };
