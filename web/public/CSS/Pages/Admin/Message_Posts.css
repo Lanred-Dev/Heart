@@ -1,0 +1,127 @@
+.Landing {
+    height: 100vh !important;
+}
+
+.Landing .Main_Container #Form_Container {
+    width: 100%;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Content {
+    width: 93%;
+    margin-right: auto;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input .Main:focus~.Placeholder {
+    color: var(--Color_2);
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input .Placeholder {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    color: #cfcfcfcb;
+    font-size: 15px;
+    transform: translate(0px, -50%);
+    transition: color 0.3s;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input .Main {
+    width: 100%;
+    border-radius: 7.5px;
+    background: var(--Background_Color_5);
+    outline: none;
+    color: var(--Color_2);
+    font-size: 17.5px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 0px 0px var(--Color_5);
+    padding: 30px;
+    height: 81px;
+    transition: box-shadow 0.15s;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown {
+    position: relative;
+    width: 6%;
+    height: 81px;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Toggle {
+    background: none;
+    outline: none;
+    background: var(--Background_Color_5);
+    border-radius: 7.5px;
+    height: 100%;
+    width: 100%;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Toggle .Arrow {
+    font-size: 20px;
+    color: var(--Color_2);
+    transform: rotate(90deg);
+    display: block;
+    pointer-events: none;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Items {
+    position: absolute;
+    right: 0%;
+    background: var(--Background_Color_6);
+    border-radius: 7.5px;
+    box-shadow: 0px 0px 0px 0px var(--Color_5);
+    z-index: 1;
+    display: none;
+    min-width: 200px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px 3px var(--Color_5);
+    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 12.5px;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Items .Item {
+    width: 100%;
+    background: none;
+    outline: none;
+    font-size: 14px;
+    color: var(--Color_2);
+    margin-bottom: 10px;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Items .Item:last-child {
+    margin-bottom: 0px;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input.Has_Dropdown .Dropdown .Items.Appear {
+    display: block;
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input .Main:focus {
+    box-shadow: 0px 0px 20px 3px var(--Color_5);
+}
+
+.Landing .Main_Container #Form_Container .Inputs .Input:last-child {
+    margin-bottom: 0px;
+}
+
+.Landing .Main_Container #Form_Container .Inputs #Description_Input {
+    resize: none;
+    min-height: 81px;
+}
+
+.Landing .Main_Container #Preview_Container {
+    width: 100%;
+}

@@ -1,4 +1,4 @@
 module.exports = {
-    file: "api/errors/500",
-    path: "/errors/500",
+	file: "api/errors/500",
+	path: "/errors/500",
 };

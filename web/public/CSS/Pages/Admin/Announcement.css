@@ -1,0 +1,58 @@
+.Landing .Main_Container #Preview_Container #Preview_Invalid .Title {
+    font-size: 30px;
+    color: var(--Color_2);
+    margin-bottom: 5px;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Invalid .Title_Under {
+    font-size: 15px;
+    color: var(--Color_1);
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed {
+    display: flex;
+    justify-content: center;
+    line-height: 150%;
+    color: var(--Color_2);
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Border {
+    background: var(--Color_1);
+    flex-shrink: 0;
+    width: 4px;
+    border-radius: 4px 0 0 4px;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Container {
+    background: #2f3136;
+    padding: 8px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0px 4px 4px 0px;
+    max-width: 520px;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Container #Preview_Title {
+    font-size: 20px;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Container #Preview_Description {
+    font-size: 15px;
+    margin-top: 8px;
+    height: auto;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Container .Footer {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.Landing .Main_Container #Preview_Container #Preview_Embed .Container .Footer #Preview_Footer {
+    font-size: 10px;
+    text-align: left;
+}

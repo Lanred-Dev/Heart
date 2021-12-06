@@ -1,5 +1,5 @@
 module.exports = {
-	file: "features/color",
-	path: "/features/color",
+	file: "features/binary",
+	path: "/features/binary",
 	args: ["Latest_Announcement", "User"],
 };

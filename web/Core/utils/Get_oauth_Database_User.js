@@ -1,9 +1,9 @@
-const fsAPI = require("fs");
+const fs = require("fs");
 
 module.exports = {
-    name: "Get_oauth_Database_User",
+	name: "Get_oauth_Database_User",
 
-    execute(Session_ID) {
-        return JSON.parse(fsAPI.readFileSync("web/Core/Databases/oauth.json")).find(User => User.id === Session_ID);
-    }
+	execute(ID) {
+		return JSON.parse(fs.readFileSync("web/Core/Databases/oauth.json")).find(User => User.id === ID);
+	},
 };

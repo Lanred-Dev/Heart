@@ -118,17 +118,22 @@
     font-size: 18px;
 }
 
-#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Game_Container .Timer_Container .Title {
+#Spacebar_Modal .Menu_Container #Super_Secret_Hidden_Spacebar_Game_Start_Button {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item #Super_Secret_Hidden_Spacebar_Game #Super_Secret_Hidden_Spacebar_Game_Timer_Container #Super_Secret_Hidden_Spacebar_Game_Start_Timer {
     color: var(--Color_2);
     font-size: 50px;
     animation: Game_Start_Timer_Animation 1s infinite;
 }
 
-#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Main_Game_Container .Key {
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item #Super_Secret_Hidden_Spacebar_Game_Main_Game_Container #Super_Secret_Hidden_Spacebar_Game_Spacebar_Key {
     transition: background 0.1s, color 0.1s, box-shadow 0.1s, border 0.1s;
 }
 
-#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item .Main_Game_Container .Key.Active {
+#Spacebar_Modal .Content.Modal_Item .Body.Modal_Item #Super_Secret_Hidden_Spacebar_Game_Main_Game_Container #Super_Secret_Hidden_Spacebar_Game_Spacebar_Key.Active {
     background: var(--Color_1);
     color: var(--Color_2);
     border: 1px solid #ffffff00;
