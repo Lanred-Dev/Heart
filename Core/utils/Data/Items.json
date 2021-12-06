@@ -1,0 +1,11 @@
+[{
+    "Name": "Apple",
+    "Emoji": ":apple:",
+    "Price": 10,
+    "Description": "Allows you to eat, a apple. wow!"
+}, {
+    "Name": "Banana",
+    "Emoji": ":banana:",
+    "Price": 10,
+    "Description": "Allows you to eat, a banana. they remind me of mario kart"
+}]

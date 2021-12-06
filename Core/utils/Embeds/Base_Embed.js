@@ -1,9 +1,9 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
 
 module.exports = {
-    name: "Base_Embed",
+	name: "Base_Embed",
 
-    execute(Status) {
-        return new DiscordAPI.MessageEmbed().setDescription(Status).setColor(Global_Embed_Color);
-    }
+	execute(Status) {
+		return new Discord.MessageEmbed().setDescription(Status).setColor(Global_Embed_Color);
+	},
 };

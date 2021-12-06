@@ -10,7 +10,7 @@
     "Emoji": "🍕",
     "Pay": 7,
     "Hire_Difficulty": 1,
-    "Status": "Red restaurant is always hiring people to deliver the food!",
+    "Status": "Pizza place is always hiring people to deliver the food!",
     "Rank": 1
 }, {
     "Name": "Housekeeper",
@@ -24,28 +24,28 @@
     "Emoji": "👩‍⚕️",
     "Pay": 35,
     "Hire_Difficulty": 10,
-    "Status": "Thats right, we need you, yea you the nurse! Come work for us!",
+    "Status": "SWAG HOSPITAL NEEDS YOU!",
     "Rank": 2
 }, {
     "Name": "Car Salesman",
     "Emoji": "🚗",
     "Pay": 20,
     "Hire_Difficulty": 3,
-    "Status": "we poor, you sell cars",
+    "Status": "yea so we are kinda poor and low on workers",
     "Rank": 1
 }, {
     "Name": "Paramedic",
     "Emoji": "🚑",
     "Pay": 30,
     "Hire_Difficulty": 10,
-    "Status": "You! Come help save some lifes!",
+    "Status": "GO THE SCENE AND BRING PEOPLE BACK TO SWAG HOSTPITAL!",
     "Rank": 2
 }, {
     "Name": "Crack shack owner",
     "Emoji": ":house_abandoned:",
     "Pay": 50,
     "Hire_Difficulty": 15,
-    "Status": "you selling crack?",
+    "Status": "you sellcrack?",
     "Rank": 2
 }, {
     "Name": "Magician",

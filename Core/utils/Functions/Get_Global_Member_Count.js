@@ -1,13 +1,13 @@
 module.exports = {
-    name: "Get_Global_Member_Count",
+	name: "Get_Global_Member_Count",
 
-    execute(Client) {
-        var Member_Count = 0;
+	execute(Client) {
+		let Member_Count = 0;
 
-        Client.guilds.cache.forEach(Guild => {
-            Member_Count += Guild.memberCount;
-        });
+		Client.guilds.cache.forEach((Guild) => {
+			Member_Count += Guild.memberCount;
+		});
 
-        return Member_Count;
-    }
+		return Member_Count;
+	},
 };

@@ -1,31 +1,36 @@
+const Discord = require("discord.js");
 const Ambulance_Embed = require("../Ambulance_Embed_Self.js");
 
 module.exports = {
     name: "Get_Member",
 
-    execute(Message, Message_Args, Can_Be_Self) {
-        const User = Message.mentions.users.first() || Message.guild.members.cache.get(Message_Args[0]);
+    execute(Interaction, Can_Be_Self, Can_Not_Be_Admin, Is_Self_String, Is_Admin_String, Ephemeral) {
+        const User = Interaction.options.getUser("user");
 
-        if (Can_Be_Self != null && Can_Be_Self === true && !User) {
-            return Message.member;
+        if (Can_Be_Self && !User) {
+            return Interaction.member;
+        } else if (!Can_Be_Self && User === Interaction.user) {
+            Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, ${Is_Self_String ? Is_Self_String : "you cant do that"}.`)], ephemeral: Ephemeral ? Ephemeral : false });
+
+            return null;
         } else if (!User) {
-            Message.channel.send({
-                embeds: [Ambulance_Embed(`${Message.author.toString()}, provide a user.`)]
-            });
+            Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, provide a user.`)], ephemeral: Ephemeral ? Ephemeral : false });
 
             return null;
         }
 
-        const Member = Message.guild.members.cache.get(User.id);
+        const Member = Interaction.guild.members.cache.get(User.id);
 
         if (!Member) {
-            Message.channel.send({
-                embeds: [Ambulance_Embed(`${Message.author.toString()}, provide a user.`)]
-            });
+            Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, provide a user.`)], ephemeral: Ephemeral ? Ephemeral : false });
+
+            return null;
+        } else if (Can_Not_Be_Admin && Can_Not_Be_Admin === true && Member.permissions.has(Discord.Permissions.FLAGS["ADMINISTRATOR"])) {
+            Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, ${Is_Admin_String ? Is_Admin_String : "you cant do that"}.`)], ephemeral: Ephemeral ? Ephemeral : false });
 
             return null;
         }
 
         return Member;
-    }
+    },
 };

@@ -1,11 +1,1 @@
-[{
-    "Name": "Apple",
-    "Price": 10,
-    "Emoji": ":apple:",
-    "Description": "Allows you to eat, a apple."
-}, {
-    "Name": "Banana",
-    "Price": 10,
-    "Emoji": ":banana:",
-    "Description": "Allows you to eat, a banana."
-}]
+["apple"]
