@@ -1,43 +1,47 @@
-const DiscordAPI = require("discord.js");
-const CanvasAPI = require("canvas");
+const Discord = require("discord.js");
+const Canvas = require("canvas");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Get_Member = Global_Functions.Get_Member;
 
-function Dolphin_Embed() {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setDescription("you dolphin man?")
-        .setImage("attachment://dolphin_man.png")
-        .setColor(Global_Embed_Color);
+function Embed() {
+    const Embed = new Discord.MessageEmbed().setDescription("you dolphin man?").setImage("attachment://dolphin_man.png").setColor(Global_Embed_Color);
 
     return Embed;
 }
 
 module.exports = {
-    name: "dolphinman",
-    aliases: [],
+    info: new SlashCommandBuilder()
+        .setName("dolphinman")
+        .setDescription("dolphin man?")
+        .addUserOption((Option) => Option.setName("user").setDescription("The user").setRequired(false)),
     category: "meme",
-    setup: "dolphinman [User]",
-    show_aliases: true,
-    description: "dolphin man?",
 
-    async execute(Message, Message_Args, Client) {
-        const Member = Get_Member(Message, Message_Args, true);
+    async execute(Interaction, Client) {
+        try {
+            const Member = Get_Member(Interaction, true);
 
-        if (!Member) return;
+            if (!Member) return;
 
-        const Canvas = CanvasAPI.createCanvas(301, 375);
-        const Context = Canvas.getContext("2d");
-        const Background = await CanvasAPI.loadImage("Core/Assets/Dolphin_Man.png");
+            const Image_Canvas = Canvas.createCanvas(301, 375);
+            const Context = Image_Canvas.getContext("2d");
+            const Background = await Canvas.loadImage("Core/Assets/Dolphin_Man.png");
 
-        Context.drawImage(Background, 0, 0, 301, 375);
+            Context.drawImage(Background, 0, 0, 301, 375);
 
-        const Avatar = await CanvasAPI.loadImage(Member.user.displayAvatarURL({
-            format: "jpg"
-        }));
+            const Avatar = await Canvas.loadImage(
+                Member.user.displayAvatarURL({
+                    format: "jpg",
+                })
+            );
 
-        Context.translate(87 + 83 / 2, 37 + 83 / 2);
-        Context.rotate(-15 * (Math.PI / 180));
-        Context.translate(-87 - 83 / 2, -37 - 83 / 2);
-        Context.drawImage(Avatar, 57, 55, 130, 130);
-        Message.channel.send({embeds: [Dolphin_Embed()], files: [new DiscordAPI.MessageAttachment(Canvas.toBuffer(), "dolphin_man.png")]});
-    }
+            Context.translate(87 + 83 / 2, 37 + 83 / 2);
+            Context.rotate(-15 * (Math.PI / 180));
+            Context.translate(-87 - 83 / 2, -37 - 83 / 2);
+            Context.drawImage(Avatar, 57, 55, 130, 130);
+
+            Interaction.reply({ embeds: [Embed()], files: [new Discord.MessageAttachment(Image_Canvas.toBuffer(), "dolphin_man.png")] });
+        } catch (Error) {
+            Interaction.reply({ embeds: [Error_Embed(Error)] });
+        }
+    },
 };

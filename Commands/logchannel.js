@@ -1,20 +1,23 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
 
 function Log_Embed(New_Channel, Old_Channel, Moderator) {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle(":gear: [Gears turning] :gear:")
         .setDescription(`${Moderator} has ${Old_Channel === null ? "set" : "updated"} the log channel.`)
         .setColor(Global_Embed_Color)
-        .addFields({
-            name: "Old Channel",
-            value: `${Old_Channel != null ? Old_Channel : "**none**"}`,
-            inline: true
-        }, {
-            name: "New Channel",
-            value: `${New_Channel != null ? New_Channel : "**none**"}`,
-            inline: true
-        })
+        .addFields(
+            {
+                name: "Old Channel",
+                value: `${Old_Channel ? Old_Channel : "**none**"}`,
+                inline: true,
+            },
+            {
+                name: "New Channel",
+                value: `${New_Channel ? New_Channel : "**none**"}`,
+                inline: true,
+            }
+        )
         .setTimestamp(new Date())
         .setFooter("❤ Log");
 
@@ -32,33 +35,34 @@ module.exports = {
 
     async execute(Message, Message_Args, Client, Command) {
         const Channel_Name = Message_Args.slice(0).join(" ") || null;
-        var Channel;
+        let Channel;
 
-        if (Channel_Name === Moderation_Database[Message.guild.id].log_channel) return Message.channel.send({embeds: [Ambulance_Embed(`${Message.author.toString()}, provide a new channel name.`)]});
+        if (Channel_Name === Global_Databases.Moderation[Message.guild.id].log_channel) return Message.channel.send({ embeds: [Ambulance_Embed(`${Message.author.toString()}, provide a new channel name.`)] });
 
-        if (Channel_Name != null) {
+        if (Channel_Name) {
             Channel = Message.guild.channels.cache.find((Gotten_Channel) => {
                 return Gotten_Channel.name.toLowerCase() === Channel_Name.toLowerCase();
             });
 
-            if (!Channel) return Message.channel.send({
-                embeds: [Ambulance_Embed(`${Message.author.toString()}, I could not find a **${Channel_Name}** channel.`)]
-            });
+            if (!Channel)
+                return Message.channel.send({
+                    embeds: [Ambulance_Embed(`${Message.author.toString()}, I could not find a channel called **${Channel_Name}**.`)],
+                });
 
             Channel.send({
-                embeds: [Log_Embed(Channel, Moderation_Database[Message.guild.id].log_channel, Message.author.toString())]
+                embeds: [Log_Embed(Channel, Global_Databases.Moderation[Message.guild.id].log_channel, Message.author.toString())],
             });
         }
 
         Message.channel.send({
             embeds: [
-                new DiscordAPI.MessageEmbed()
-                .setTitle(":gear: [Gears turning] :gear:")
-                .setDescription(`The log channel has been ${Moderation_Database[Message.guild.id].log_channel === null ? "set" : "updated"} to ${Channel != null ? Channel : "**none**"}.`)
-                .setColor(Global_Embed_Color)
-            ]
+                new Discord.MessageEmbed()
+                    .setTitle(":gear: [Gears turning] :gear:")
+                    .setDescription(`The log channel has been ${Global_Databases.Moderation[Message.guild.id].log_channel === null ? "set" : "updated"} to ${Channel ? Channel : "**none**"}.`)
+                    .setColor(Global_Embed_Color),
+            ],
         });
 
-        Moderation_Database[Message.guild.id].log_channel = Channel_Name;
-    }
+        Global_Databases.Moderation[Message.guild.id].log_channel = Channel_Name;
+    },
 };

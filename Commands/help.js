@@ -1,180 +1,138 @@
-const DiscordAPI = require("discord.js");
-const Prefix = process.env.PREFIX;
-const Sections = [
-    "utility",
-    "fun",
-    "love",
-    "meme",
-    "moderation",
-    "currency",
-    "all"
-];
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const Sections = ["utility", "fun", "love", "meme", "moderation", "currency", "all"];
 const Section_Emojis = {
-    "utility": ":gear:",
-    "fun": ":smile:",
-    "love": ":heart:",
-    "meme": ":rofl:",
-    "moderation": "🛡️",
-    "currency": ":coin:",
-    "all": "",
+    utility: ":gear:",
+    fun: ":smile:",
+    love: ":heart:",
+    meme: ":rofl:",
+    moderation: "🛡️",
+    currency: ":coin:",
+    all: "",
 };
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
+const Moderation_Database = Global_Databases.Moderation;
 
 function Help_Embed() {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle("🏫 [School Bell] 🏫")
         .setColor(Global_Embed_Color)
-        .addFields({
-            name: "🛡️ Moderation 🛡️",
-            value: `\`${Prefix}help moderation\``,
-            inline: true
-        }, {
-            name: ":smile: Fun :smile:",
-            value: `\`${Prefix}help fun\``,
-            inline: true
-        }, {
-            name: ":heart: Love :heart:",
-            value: `\`${Prefix}help love\``,
-            inline: true
-        }, {
-            name: ":rofl: Meme :rofl:",
-            value: `\`${Prefix}help meme\``,
-            inline: true
-        }, {
-            name: ":gear: Utility :gear:",
-            value: `\`${Prefix}help utility\``,
-            inline: true
-        }, {
-            name: ":coin: Currency :coin:",
-            value: `\`${Prefix}help currency\``,
-            inline: true
-        })
-        .setFooter("❤ Categories • More commands coming soon");
+        .addFields(
+            {
+                name: "🛡️ Moderation 🛡️",
+                value: "`help ​category: moderation`",
+                inline: true,
+            },
+            {
+                name: ":smile: Fun :smile:",
+                value: "`help ​category: fun`",
+                inline: true,
+            },
+            {
+                name: ":heart: Love :heart:",
+                value: "`help ​category: love`",
+                inline: true,
+            },
+            {
+                name: ":rofl: Meme :rofl:",
+                value: "`help ​category: meme`",
+                inline: true,
+            },
+            {
+                name: ":gear: Utility :gear:",
+                value: "`help ​category: utility`",
+                inline: true,
+            },
+            {
+                name: ":coin: Currency :coin:",
+                value: "`help ​category: currency`",
+                inline: true,
+            },
+            {
+                name: ":headphones: Song :headphones:",
+                value: "`help ​category: song`",
+                inline: true,
+            }
+        )
+        .setFooter(`❤ Categories`);
 
     return Embed;
 }
 
 function Section_Embed(Full_Section_Name, Commands, Command_Amount) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(Full_Section_Name)
-        .setDescription(Commands)
-        .setColor(Global_Embed_Color)
-        .setFooter(`❤ ${Command_Amount} comamnds`);
+    const Embed = new Discord.MessageEmbed().setTitle(Full_Section_Name).setDescription(Commands).setColor(Global_Embed_Color).setFooter(`❤ ${Command_Amount} comamnds`);
 
     return Embed;
 }
 
 function Command_Embed(Command, Description) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(Command)
-        .setDescription(Description)
-        .setColor(Global_Embed_Color);
+    const Embed = new Discord.MessageEmbed().setTitle(Command).setDescription(Description).setColor(Global_Embed_Color);
 
     return Embed;
 }
 
-function Load_Section_Commands(Section, Client) {
-    var String = "";
-    var First_Command = true;
-    var Command_Amount = 0;
+function Load_Section_Commands(Category, Client) {
+    let String = null;
+    let Command_Amount = 0;
 
-    if (Section === "all") {
-        Client.Commands.forEach(File => {
-            if (File.category) {
-                Command_Amount++;
-
-                if (First_Command) {
-                    String = `\`${Prefix + File.name}\``, First_Command = false;
-                } else {
-                    String = `${String}, \`${Prefix + File.name}\``;
-                };
-            };
+    if (Category === "all") {
+        Client.Commands_Main.forEach((File) => {
+            Command_Amount++;
+            String = `${String != null ? `${String}, ` : ""} \`${File.info.name}\``;
         });
     } else {
-        Client.Commands.forEach(File => {
-            if (File.category && File.category === Section) {
-                Command_Amount++;
-
-                if (First_Command) {
-                    String = `\`${Prefix + File.name}\``, First_Command = false;
-                } else {
-                    String = `${String}, \`${Prefix + File.name}\``;
-                };
-            };
+        Client.Commands_Main.filter((File) => File.category && File.category === Category).forEach((File) => {
+            Command_Amount++;
+            String = `${String != null ? `${String}, ` : ""} \`${File.info.name}\``;
         });
-    };
+    }
 
     return [String, Command_Amount];
 }
 
-function Load_Command(File) {
-    var String = `${File.description}\n\nSetup: \`${Prefix + File.setup}\``;
-    var First_Secondary = true;
-    var First_Aliase = true;
-
-    if (File.show_aliases != false) {
-        if (File.aliases.length != 0) {
-            String = `${String}\nAliases: `;
-
-            File.aliases.forEach(Aliase => {
-                if (First_Aliase) {
-                    String = `${String}\`${Prefix + Aliase}\``, First_Aliase = false;
-                } else {
-                    String = `${String}, \`${Prefix + Aliase}\``;
-                };
-            });
-        }
-    }
-
-    if (File.secondary) {
-        String = `${String}\nCommands: `;
-
-        File.secondary.forEach(Secondary => {
-            if (First_Secondary) {
-                String = `${String}\`${Prefix + Secondary}\``, First_Secondary = false;
-            } else {
-                String = `${String}, \`${Prefix + Secondary}\``;
-            };
-        });
-    };
-
-    return String;
+function Load_Command(File, Guild) {
+    return `${Guild.disabled_commands.includes(File.info.name) ? "<:Locked:916713909468160020>" : ""} ${File.info.description}${File.permissions ? `\n\n**Permissions**: ${(Array.isArray(File.permissions) ? File.permissions.join(", ") : File.permissions).toLowerCase()}\n` : ""}${File.usage ? (File.permissions ? "\n" : "\n\n") + `**Usage**: ${File.usage}}` : ""}`;
 }
 
 module.exports = {
-    name: "help",
-    aliases: ["commands", "cmds"],
+    info: new SlashCommandBuilder()
+        .setName("help")
+        .setDescription("Lists the requested section/command detials.")
+        .addStringOption((Option) => Option.setName("category").setDescription("The command category").setRequired(false))
+        .addStringOption((Option) => Option.setName("command").setDescription("The command").setRequired(false)),
     category: "utility",
-    setup: "help [Category/Command]",
-    show_aliases: true,
-    description: "Lists the requested section/command detials.",
 
-    async execute(Message, Message_Args, Client, Command) {
-        const Help = Message_Args.slice(0).join(" ").toLowerCase();
-        var Command = false;
+    async execute(Interaction, Client) {
+        const Section = Interaction.options.getString("category") ? Interaction.options.getString("category").toLowerCase() : null;
+        const Command = Interaction.options.getString("command") ? Interaction.options.getString("command").toLowerCase() : null;
+        let Is_Command = false;
 
-        if (!Help) return Message.channel.send({embeds: [Help_Embed()]});
+        if (Command) {
+            Client.Commands_Main.forEach((File) => {
+                if (File.info.name === Command) {
+                    const Command_Detials = Load_Command(File, Moderation_Database[Interaction.guild.id]);
 
-        Client.Commands.forEach(File => {
-            if (File.name === Help || File.aliases.includes(Help)) {
-                const Command_Detials = Load_Command(File);
+                    Is_Command = true;
+                    Interaction.reply({ embeds: [Command_Embed(File.info.name, Command_Detials)] });
 
-                Message.channel.send({embeds: [Command_Embed(File.name, Command_Detials)]});
-                Command = true;
+                    return;
+                }
+            });
 
-                return;
-            };
-        });
+            if (Is_Command != true) return Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, I could not find command called **${Command}**.`)] });
+        }
 
-        if (Command === true) return;
+        if (Is_Command === true) return;
 
-        if (Sections.includes(Help)) {
-            const Section_Emoji = Section_Emojis[Help];
-            const Section_Info = Load_Section_Commands(Help, Client);
+        if (Sections.includes(Section)) {
+            const Section_Emoji = Section_Emojis[Section];
+            const Section_Info = Load_Section_Commands(Section, Client);
 
-            Message.channel.send({embeds: [Section_Embed(`${Section_Emoji} ${Help.toLowerCase() === "all" ? "" : Help.toLowerCase()} ${Section_Emoji}`, Section_Info[0], Section_Info[1])]});
+            Interaction.reply({ embeds: [Section_Embed(`${Section_Emoji} ${Section.toLowerCase() === "all" ? "" : Section.toLowerCase()} ${Section_Emoji}`, Section_Info[0], Section_Info[1])] });
+        } else if (Section === null) {
+            Interaction.reply({ embeds: [Help_Embed()] });
         } else {
-            Message.channel.send({embeds: [Ambulance_Embed(`I cant find category **${Help}** called.`)]});
-        };
-    }
+            Interaction.reply({ embeds: [Ambulance_Embed(`${Interaction.user.toString()}, I could not find command category called **${Section}**.`)] });
+        }
+    },
 };

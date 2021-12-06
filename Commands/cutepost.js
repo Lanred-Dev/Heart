@@ -1,35 +1,34 @@
-const DiscordAPI = require('discord.js');
-const imageAPI = require("imageapi.js");
+const Discord = require("discord.js");
+const Just_Reddit = require("justreddit");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const Error_Embed = Global_Functions.Error_Embed;
+const Base_Embed = Global_Functions.Base_Embed;
 const Reddits = ["aww"];
 
-function Post_Embed(Cute, Sub_Reddit) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setImage(Cute)
-        .setColor(Global_Embed_Color)
-        .setURL(`https://new.redit.com/r/${Sub_Reddit}}`)
-        .setFooter(`❤ Cute Post • r/${Sub_Reddit}`);
+function Embed(Cute_Post, Reddit) {
+    const Embed = new Discord.MessageEmbed().setTitle(Cute_Post.title).setImage(Cute_Post.image).setColor(Global_Embed_Color).setURL(`https://reddit.com/r/${Reddit}`).setFooter(`❤ Posted by ${Cute_Post.author} on r/${Reddit} • ${Cute_Post.upvotes} upvotes`);
 
     return Embed;
 }
 
-async function Get_Post(Sub_Reddit) {
-    return await imageAPI(Sub_Reddit);
-};
-
 module.exports = {
-    name: "cutepost",
-    aliases: ["cutemoment", "rcute"],
+    info: new SlashCommandBuilder().setName("cutepost").setDescription("so... cute"),
     category: "love",
-    setup: "cutepost",
-    show_aliases: true,
-    description: "so... cute",
 
-    async execute(Message, Message_Args, Client) {
-        const Chosen_Reddit = Reddits[Math.floor(Math.random() * Reddits.length)];
-        const Random_Cute = await Get_Post(Chosen_Reddit);
+    async execute(Interaction, Client) {
+        Interaction.reply({ embeds: [Base_Embed("Please wait...")] });
 
-        if (Random_Cute === null) Random_Cute = await Get_Post(Chosen_Reddit);
+        try {
+            const Reddit = Reddits[Math.floor(Math.random() * Reddits.length)];
+            const Cute_Post = await Just_Reddit.Post(Reddit, "top");
 
-        Message.channel.send({embeds: [Post_Embed(Random_Cute, Chosen_Reddit)]});
-    }
+            if (Cute_Post === null) return Interaction.editReply({ embeds: [Error_Embed("Failed to fetch cute post.")] });
+
+            Interaction.editReply({ embeds: [Embed(Cute_Post, Reddit)] });
+        } catch (Error) {
+            console.log(`Failed to fetch cutepost.\nError: ${Error}`);
+
+            Interaction.editReply({ embeds: [Error_Embed("Failed to fetch cute post.")] });
+        }
+    },
 };

@@ -1,17 +1,11 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
 
 function Create_Embed(Title, Description, Color, Footer, Icon, Thumbnail, URL) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setDescription(Description)
-        .setColor(Color)
-        .setFooter(Footer)
-        .setURL(URL)
-        .setThumbnail(Thumbnail)
-        .setAuthor(Title, Icon, "");
+    const Embed = new Discord.MessageEmbed().setDescription(Description).setColor(Color).setFooter(Footer).setURL(URL).setThumbnail(Thumbnail).setAuthor(Title, Icon, "");
 
     return Embed;
-};
+}
 
 function Get_Title(String) {
     const Match = String.match(/{title:.*}/gim);
@@ -96,9 +90,9 @@ module.exports = {
         const Title = Get_Title(Message.content);
 
         if (!Description) {
-            if (!Title) return Message.channel.send({embeds: [Ambulance_Embed(`${Message.author.toString()}, provide content for the embed.`)]});
+            if (!Title) return Message.channel.send({ embeds: [Ambulance_Embed(`${Message.author.toString()}, provide content for the embed.`)] });
         } else if (!Title) {
-            if (!Description) return Message.channel.send({embeds: [Ambulance_Embed(`${Message.author.toString()}, provide content for the embed.`)]});
+            if (!Description) return Message.channel.send({ embeds: [Ambulance_Embed(`${Message.author.toString()}, provide content for the embed.`)] });
         }
 
         const Color = Get_Color(Message.content);
@@ -107,6 +101,6 @@ module.exports = {
         const Thumbnail = Get_Thumbnail(Message.content);
         const URL = Get_URL(Message.content);
 
-        Message.channel.send({embeds: [Create_Embed(Title, Description, Color, Footer, Icon, Thumbnail, URL)]});
-    }
+        Message.channel.send({ embeds: [Create_Embed(Title, Description, Color, Footer, Icon, Thumbnail, URL)] });
+    },
 };

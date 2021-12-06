@@ -1,15 +1,20 @@
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Get_Tip = Global_Functions.Get_Tip;
 
-module.exports = {
-    name: "kayne",
-    aliases: ["kaynewest", "staremanlookatcamera"],
-    category: "meme",
-    setup: "kayne",
-    show_aliases: true,
-    description: "**kayne west**",
+function Embed() {
+    const Embed = new Discord.MessageEmbed().setDescription("dont worry kanye we love you").setImage("https://i.kym-cdn.com/entries/icons/original/000/033/421/cover2.jpg").setColor(Global_Embed_Color);
 
-    async execute(Message, Message_Args, Client) {
-        Message.channel.send(Get_Tip());
-        Message.channel.send("https://tenor.com/view/kanye-west-stare-staring-funny-gif-13590085");
-    }
+    return Embed;
+}
+
+module.exports = {
+    info: new SlashCommandBuilder()
+        .setName("kayne")
+        .setDescription("kayne west kayne west kayne west kayne west kayne west kayne west"),
+    category: "meme",
+
+    async execute(Interaction, Client) {
+        Interaction.reply({ content: Get_Tip(), embeds: [Embed()] });
+    },
 };

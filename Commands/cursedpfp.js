@@ -1,12 +1,9 @@
-const DiscordAPI = require("discord.js");
-const CanvasAPI = require("canvas");
+const Discord = require("discord.js");
+const Canvas = require("canvas");
 const Get_Member = Global_Functions.Get_Member;
 
 function Embed() {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setDescription(":eyes:")
-        .setImage("attachment://pfp.png")
-        .setColor(Global_Embed_Color);
+    const Embed = new Discord.MessageEmbed().setDescription(":eyes:").setImage("attachment://pfp.png").setColor(Global_Embed_Color);
 
     return Embed;
 }
@@ -24,38 +21,40 @@ module.exports = {
 
         if (!Member) return;
 
-        const Canvas = CanvasAPI.createCanvas(128, 128);
-        const Context = Canvas.getContext("2d");
-        const Avatar = await CanvasAPI.loadImage(Member.user.displayAvatarURL({
-            format: "jpg"
-        }));
+        const Image_Canvas = Canvas.createCanvas(128, 128);
+        const Context = Image_Canvas.getContext("2d");
+        const Avatar = await Canvas.loadImage(
+            Member.user.displayAvatarURL({
+                format: "jpg",
+            })
+        );
 
         Context.drawImage(Avatar, 0, 0, 128, 128);
 
-        var Intensity = Math.floor(Math.random() * 85);
+        let Intensity = Math.floor(Math.random() * 85);
 
         if (Intensity < 55) {
             Intensity = 55;
         }
 
-        var Radius = Math.floor(Math.random() * 15);
+        let Radius = Math.floor(Math.random() * 15);
 
         if (Radius < 8) {
             Radius = 8;
         }
 
-        const Image_Data = Context.getImageData(0, 0, Canvas.width, Canvas.height);
-        var Pixels = Image_Data.data;
-        var Intensity_LUT = [];
-        var RGB_LUT = [];
-        var Pixel_Intensity_Count = [];
+        const Image_Data = Context.getImageData(0, 0, Image_Canvas.width, Image_Canvas.height);
+        let Pixels = Image_Data.data;
+        let Intensity_LUT = [];
+        let RGB_LUT = [];
+        let Pixel_Intensity_Count = [];
 
-        for (var Current_Y = 0; Current_Y < Canvas.height; Current_Y++) {
+        for (let Current_Y = 0; Current_Y < Image_Canvas.height; Current_Y++) {
             Intensity_LUT[Current_Y] = [];
             RGB_LUT[Current_Y] = [];
 
-            for (var Current_X = 0; Current_X < Canvas.width; Current_X++) {
-                const Added = (Current_Y * Canvas.width + Current_X) * 4;
+            for (let Current_X = 0; Current_X < Image_Canvas.width; Current_X++) {
+                const Added = (Current_Y * Image_Canvas.width + Current_X) * 4;
                 const R = Pixels[Added];
                 const G = Pixels[Added + 1];
                 const B = Pixels[Added + 2];
@@ -65,19 +64,18 @@ module.exports = {
                 RGB_LUT[Current_Y][Current_X] = {
                     r: R,
                     g: G,
-                    b: B
+                    b: B,
                 };
             }
         }
 
-
-        for (Current_Y = 0; Current_Y < Canvas.height; Current_Y++) {
-            for (Current_X = 0; Current_X < Canvas.width; Current_X++) {
+        for (Current_Y = 0; Current_Y < Image_Canvas.height; Current_Y++) {
+            for (Current_X = 0; Current_X < Image_Canvas.width; Current_X++) {
                 Pixel_Intensity_Count = [];
 
-                for (var Current_Secondary_Y = -Radius; Current_Secondary_Y <= Radius; Current_Secondary_Y++) {
-                    for (var Current_Secondary_X = -Radius; Current_Secondary_X <= Radius; Current_Secondary_X++) {
-                        if (Current_Y + Current_Secondary_Y > 0 && Current_Y + Current_Secondary_Y < Canvas.height && Current_X + Current_Secondary_X > 0 && Current_X + Current_Secondary_X < Canvas.width) {
+                for (let Current_Secondary_Y = -Radius; Current_Secondary_Y <= Radius; Current_Secondary_Y++) {
+                    for (let Current_Secondary_X = -Radius; Current_Secondary_X <= Radius; Current_Secondary_X++) {
+                        if (Current_Y + Current_Secondary_Y > 0 && Current_Y + Current_Secondary_Y < Image_Canvas.height && Current_X + Current_Secondary_X > 0 && Current_X + Current_Secondary_X < Image_Canvas.width) {
                             const Intensity_Value = Intensity_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X];
 
                             if (!Pixel_Intensity_Count[Intensity_Value]) {
@@ -85,8 +83,8 @@ module.exports = {
                                     value: 1,
                                     r: RGB_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X].r,
                                     g: RGB_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X].g,
-                                    b: RGB_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X].b
-                                }
+                                    b: RGB_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X].b,
+                                };
                             } else {
                                 Pixel_Intensity_Count[Intensity_Value].value++;
                                 Pixel_Intensity_Count[Intensity_Value].r += RGB_LUT[Current_Y + Current_Secondary_Y][Current_X + Current_Secondary_X].r;
@@ -102,7 +100,7 @@ module.exports = {
                 });
 
                 const Value = Pixel_Intensity_Count[0].value;
-                const Added = (Current_Y * Canvas.width + Current_X) * 4;
+                const Added = (Current_Y * Image_Canvas.width + Current_X) * 4;
 
                 Pixels[Added] = ~~(Pixel_Intensity_Count[0].r / Value);
                 Pixels[Added + 1] = ~~(Pixel_Intensity_Count[0].g / Value);
@@ -115,7 +113,7 @@ module.exports = {
 
         Message.channel.send({
             embeds: [Embed()],
-            files: [new DiscordAPI.MessageAttachment(Canvas.toBuffer(), "pfp.png")]
+            files: [new Discord.MessageAttachment(Image_Canvas.toBuffer(), "pfp.png")],
         });
-    }
+    },
 };

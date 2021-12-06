@@ -1,35 +1,29 @@
-const DiscordAPI = require("discord.js");
-const Ambulance_Embed = Global_Functions.Ambulance_Embed;
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const Warn_Container = require("../Core/utils/Data/Constructors/Warn_Container.js");
 const Get_Member = Global_Functions.Get_Member;
 const Get_Server_Log_Channel = Global_Functions.Get_Server_Log_Channel;
+const Moderation_Database = Global_Databases.Moderation;
 
-function Warn_Embed(Reason, Admin, Server) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle("🚨 [Police Siren] 🚨")
-        .setDescription(`You have been warned in **${Server}**.`)
-        .setColor(Global_Embed_Color)
-        .addFields({
-            name: "Moderator",
-            value: Admin,
-            inline: true
-        }, {
-            name: "Reason",
-            value: Reason,
-            inline: true
-        });
+function Warn_Embed(Reason, Moderator, Server) {
+    const Embed = new Discord.MessageEmbed().setTitle("🚨 [Police Siren] 🚨").setDescription(`You have been warned in **${Server}** by ${Moderator}.`).setColor(Global_Embed_Color).addFields({
+        name: "Reason",
+        value: Reason,
+        inline: true,
+    });
 
     return Embed;
 }
 
 function Log_Embed(Reason, User, Moderator) {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle("🛡️ Moderator Action 🛡️")
-        .setDescription(`${User} has been warned by ${Moderator}.`)
+        .setDescription(`${Moderator} warned ${User}.`)
         .setColor(Global_Embed_Color)
         .addFields({
             name: "Reason",
             value: Reason,
-            inline: true
+            inline: true,
         })
         .setTimestamp(new Date())
         .setFooter("❤ Log");
@@ -38,46 +32,33 @@ function Log_Embed(Reason, User, Moderator) {
 }
 
 module.exports = {
-    name: "warn",
-    aliases: [],
+    info: new SlashCommandBuilder()
+        .setName("warn")
+        .setDescription("This command will warn a user!")
+        .addUserOption((Option) => Option.setName("user").setDescription("The user").setRequired(true))
+        .addStringOption((Option) => Option.setName("reason").setDescription("The warn reason").setRequired(false)),
     category: "moderation",
-    setup: "warn [User] [Reason]",
-    show_aliases: true,
     permissions: "ADMINISTRATOR",
-    description: "This command will warn a user!",
 
-    async execute(Message, Message_Args, Client) {
-        const Member = Get_Member(Message, Message_Args);
+    async execute(Interaction, Client) {
+        const Member = Get_Member(Interaction, false, true, "you cant warn yourself", "you cant warn fellow admins", true);
 
         if (!Member) return;
-        if (Member === Message.member) return Message.channel.send({embeds: [Ambulance_Embed("You cant warn yourself.")]});
-        if (Member.permissions.has(DiscordAPI.Permissions.FLAGS["ADMINISTRATOR"])) return Message.channel.send({embeds: [Ambulance_Embed("I cant warn fellow admins.")]});
-        if (!Moderation_Database[Message.guild.id].warns[Member.id]) Moderation_Database[Message.guild.id].warns[Member.id] = {
-            warns: {},
-            amount: 0
-        };
+        if (!Moderation_Database[Interaction.guild.id].warns[Member.id]) Moderation_Database[Interaction.guild.id].warns[Member.id] = Warn_Container;
 
-        const Reason = Message_Args.slice(1).join(" ") || "No reason";
-        
-        Member.send({embeds: [Warn_Embed(Reason, Message.author.toString(), Message.guild.name)]}).catch();
+        const Reason = Interaction.options.getString("reason") || "No reason";
+        const Highest_Key = Math.max.apply(null, Object.keys(Moderation_Database[Interaction.guild.id].warns[Member.id].warns));
 
-        Message.channel.send({
-            embeds: [new DiscordAPI.MessageEmbed()
-            .setTitle("🚨 [Police Siren] 🚨")
-            .setDescription(`${Member.toString()} has been warned.`)
-            .setColor(Global_Embed_Color)
-        ]});
+        try {
+            Member.send({ embeds: [Warn_Embed(Reason, `${Interaction.user.username}#${Interaction.user.discriminator}`, Interaction.guild.name)] });
+        } catch (Error) {}
 
-        const Log_Channel = Get_Server_Log_Channel(Message.guild);
+        Interaction.reply({ embeds: [new Discord.MessageEmbed().setTitle("🚨 [Police Siren] 🚨").setDescription(`${Member.toString()} has been warned.`).setColor(Global_Embed_Color)], ephemeral: true });
 
-        if (Log_Channel) Log_Channel.send({
-            embeds: [Log_Embed(Reason, Member.tag, Message.author.toString())]
-        });
+        const Log_Channel = Get_Server_Log_Channel(Interaction.guild);
 
-        Moderation_Database[Message.guild.id].warns[Member.id].amount += 1;
-        Moderation_Database[Message.guild.id].warns[Member.id].warns[Moderation_Database[Message.guild.id].warns[Member.id].amount] = {
-            moderator: Message.author.toString(),
-            reason: Reason
-        };
-    }
+        if (Log_Channel) Log_Channel.send({ embeds: [Log_Embed(Reason, Member.tag, Interaction.user.toString())] });
+
+        Moderation_Database[Interaction.guild.id].warns[Member.id].warns[Highest_Key && Highest_Key > 0 ? Highest_Key + 1 : 1] = { moderator: Interaction.user.id, reason: Reason };
+    },
 };

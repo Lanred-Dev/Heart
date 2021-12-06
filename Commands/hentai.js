@@ -1,14 +1,14 @@
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Embed = Global_Functions.Base_Embed;
+const Get_Tip = Global_Functions.Get_Tip;
 
 module.exports = {
-    name: "hentai",
-    aliases: [],
+    info: new SlashCommandBuilder()
+        .setName("hentai")
+        .setDescription("..."),
     category: "meme",
-    setup: "hentai",
-    show_aliases: true,
-    description: "...",
 
-    async execute(Message, Message_Args, Client) {
-        Message.channel.send({embeds: [Embed(`${Message.author.toString()}, dude wtf`)]});
-    }
+    async execute(Interaction, Client) {
+        Interaction.reply({ content: Get_Tip(), embeds: [Embed(`${Interaction.user.toString()}, dude wtf`)] });
+    },
 };

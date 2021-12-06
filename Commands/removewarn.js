@@ -1,39 +1,29 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
 const Get_Member = Global_Functions.Get_Member;
 const Get_Server_Log_Channel = Global_Functions.Get_Server_Log_Channel;
+const Moderation_Database = Global_Databases.Moderation;
 
-function Remove_Warn_Embed(Reason, Warn, Admin, Server) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(":notepad_spiral: [Tearing noises] :notepad_spiral:")
-        .setDescription(`One of your warns have been removed in **${Server}**.`)
-        .setColor(Global_Embed_Color)
-        .addFields({
-            name: "Moderator",
-            value: Admin,
-            inline: true
-        }, {
-            name: "Warn",
-            value: Warn,
-            inline: true
-        }, {
-            name: "Warn Reason",
-            value: Reason,
-            inline: true
-        });
+function Remove_Warn_Embed(Reason, Warn, Moderator, Server) {
+    const Embed = new Discord.MessageEmbed().setTitle(":notepad_spiral: [Tearing noises] :notepad_spiral:").setDescription(`Warn ${Warn} has been removed in **${Server}** by ${Moderator}.`).setColor(Global_Embed_Color).addFields({
+        name: "Warn Reason",
+        value: Reason,
+        inline: true,
+    });
 
     return Embed;
 }
 
 function Log_Embed(Reason, Warn, User, Moderator) {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle("🛡️ Moderator Action 🛡️")
         .setDescription(`Warn ${Warn} has been removed from ${User} by ${Moderator}.`)
         .setColor(Global_Embed_Color)
         .addFields({
             name: "Warn Reason",
             value: Reason,
-            inline: true
+            inline: true,
         })
         .setTimestamp(new Date())
         .setFooter("❤ Log");
@@ -42,53 +32,40 @@ function Log_Embed(Reason, Warn, User, Moderator) {
 }
 
 module.exports = {
-    name: "removewarn",
-    aliases: [],
+    info: new SlashCommandBuilder()
+        .setName("removewarn")
+        .setDescription("Dont want a user to have a warn, I see.")
+        .addUserOption((Option) => Option.setName("user").setDescription("The user").setRequired(true))
+        .addIntegerOption((Option) => Option.setName("key").setDescription("The warn key").setRequired(true)),
     category: "moderation",
-    setup: "removewarn [User] [Key]",
-    show_aliases: true,
-    description: "Dont want a user to have a warn, I see.",
 
-    async execute(Message, Message_Args, Client) {
-        const Member = Get_Member(Message, Message_Args);
+    async execute(Interaction, Client) {
+        const Member = Get_Member(Interaction, false, true, "you cant remove a warn from yourself", "you cant remove a warn from fellow admins", true);
 
         if (!Member) return;
 
-        var Warn_Key = Message_Args[1];
+        const Key = Interaction.options.getInteger("key");
+        const Warn = Moderation_Database[Interaction.guild.id].warns[Member.id]?.warns[Key];
 
-        if (Warn_Key.toLowerCase() === "key") {
-            Warn_Key = Message_Args[2];
-        };
+        if (!Warn)
+            return Interaction.reply({
+                embeds: [Ambulance_Embed(`${Interaction.author.toString()}, that is not a valid warn key for ${Member.toString()}.`)],
+                ephemeral: true,
+            });
 
-        var Warn = Moderation_Database[Message.guild.id].warns[Member.id].warns[Warn_Key];
+        try {
+            Member.send({ embeds: [Remove_Warn_Embed(Warn.reason, Key, `${Interaction.user.username}#${Interaction.user.discriminator}`, Interaction.guild.name)] });
+        } catch (Error) {}
 
-        if (!Warn) return Message.channel.send({
-            embeds: [Ambulance_Embed(`I cant find that **warn** for ${Member.toString()}.`)]
+        Interaction.reply({
+            embeds: [new Discord.MessageEmbed().setTitle(":notepad_spiral: [Tearing noises] :notepad_spiral:").setDescription(`${Member.toString()}'s warn has been removed.`).setColor(Global_Embed_Color)],
+            ephemeral: true,
         });
 
-        Warn_Key.toLowerCase() === "key" || Warn_Key.toLowerCase() === "warn" ? Warn_Key = Message_Args[2] : null;
-        Warn_Key.toLowerCase() === "key" || Warn_Key.toLowerCase() === "warn" ? Warn_Key = Message_Args[3] : null;
+        const Log_Channel = Get_Server_Log_Channel(Interaction.guild);
 
-        Member.send({
-            embeds: [Remove_Warn_Embed(Warn.reason, Warn_Key, Message.author.toString(), Message.guild.name)]
-        }).catch();
+        if (Log_Channel) Log_Channel.send({ embeds: [Log_Embed(Warn.reason, Key, Member.tag, Interaction.author.toString())] });
 
-        Message.channel.send({
-            embeds: [
-                new DiscordAPI.MessageEmbed()
-                .setTitle(":notepad_spiral: [Tearing noises] :notepad_spiral:")
-                .setDescription(`${Member.toString()}'s warn has been removed.`)
-                .setColor("#FF2D00")
-            ]
-        });
-
-        const Log_Channel = Get_Server_Log_Channel(Message.guild);
-
-        if (Log_Channel) Log_Channel.send({
-            embeds: [Log_Embed(Warn.reason, Warn_Key, Member.tag, Message.author.toString())]
-        });
-
-        Moderation_Database[Message.guild.id].warns[Member.id].amount -= 1;
-        delete Moderation_Database[Message.guild.id].warns[Member.id].warns[Warn_Key];
-    }
+        delete Moderation_Database[Interaction.guild.id].warns[Member.id].warns[Key];
+    },
 };

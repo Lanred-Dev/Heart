@@ -1,27 +1,27 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const Get_Tip = Global_Functions.Get_Tip;
 
-function Ping_Embed(API_Latency) {
-    const Embed = new DiscordAPI.MessageEmbed()
+function Embed(API_Latency) {
+    const Embed = new Discord.MessageEmbed()
         .setTitle("💬 [Server Sounds] 💬")
         .setColor(Global_Embed_Color)
         .addFields({
-            name: "📶 API Latency 📶",
+            name: "API Latency",
             value: `${API_Latency}ms`,
-            inline: true
+            inline: true,
         });
 
     return Embed;
 }
 
 module.exports = {
-    name: "ping",
-    aliases: ["latency", "apiping"],
+    info: new SlashCommandBuilder()
+        .setName("ping")
+        .setDescription("Will list the API Latency of the bot."),
     category: "utility",
-    setup: "ping",
-    show_aliases: true,
-    description: "Will list the API Latency of the bot.",
 
-    async execute(Message, Message_Args, Client) {
-        Message.channel.send({embeds: [Ping_Embed(Math.round(Client.ws.ping))]});
-    }
+    async execute(Interaction, Client) {
+        Interaction.reply({ content: Get_Tip(), embeds: [Embed(Math.round(Client.ws.ping))] });
+    },
 };

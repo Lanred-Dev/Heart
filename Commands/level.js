@@ -1,32 +1,18 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
+const Get_Member = Global_Functions.Get_Member;
 
 function Levels_Disabled_Ambulance_Embed() {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(":lock: [Locked noises] :lock:")
-        .setDescription("Levels have been disabled in this server.")
-        .setColor(Global_Embed_Color);
+    const Embed = new Discord.MessageEmbed().setTitle(":lock: [Locked noises] :lock:").setDescription("Levels have been disabled in this server.").setColor(Global_Embed_Color);
 
     return Embed;
 }
 
 function Level_Embed(Level, XP, Messages, User) {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle(":mag: [Level noises] :mag:")
         .setDescription(`${User}, you are level **${Level}**!`)
-        .addFields({
-            name: ":mag: Next Level At :mag:",
-            value: `${Levels_Reach[Level + 1]} XP`,
-            inline: true
-        }, {
-            name: "⛏️ XP Earned ⛏️",
-            value: XP,
-            inline: true
-        }, {
-            name: ":envelope: Messages Sent/Counted :envelope:",
-            value: Messages,
-            inline: true
-        })
+        .setFooter(`❤ Next level at ${Levels_Reach[Level + 1]} XP`)
         .setColor(Global_Embed_Color);
 
     return Embed;
@@ -34,33 +20,23 @@ function Level_Embed(Level, XP, Messages, User) {
 
 module.exports = {
     name: "level",
-    aliases: ["mylevel", "userlevel", "rank"],
+    aliases: [],
     category: "fun",
     setup: "level",
     show_aliases: true,
-    description: "Want to see your level/rank? Then use this command!",
+    description: "Want to see your level in the server? Yea yea we knew.",
 
     async execute(Message, Message_Args, Client) {
-        if (Moderation_Database.Level_System[Message.guild.id].enabled === false) return Message.channel.send({embeds: [Levels_Disabled_Ambulance_Embed()]});
+        if (Global_Databases.Moderation[Message.guild.id].level_system.enabled === false) return Message.channel.send({ embeds: [Levels_Disabled_Ambulance_Embed()] });
 
-        const User = Message.mentions.users.first();
+        const Member = Get_Member(Message, Message_Args, true);
 
-        if (User) {
-            const Member = Message.guild.member(User);
+        if (!Member) return;
 
-            if (!Member) return Message.channel.send({embeds: [Ambulance_Embed(`${Member.toString()} is not in this guild.`)]});
+        const Stats = Global_Databases.Users.Levels[Message.guild.id][Message.author.id];
 
-            const Stats = Users_Database.Levels[Message.guild.id][Member.id];
+        if (!Stats) return Message.channel.send({ embeds: [Ambulance_Embed(`<:3421_pepesadfriendhug:837463376548331560> ${Message.author.toString()}, I was unable to find anything for ${Member === Message.member ? "you" : Member.toString()}. <:3421_pepesadfriendhug:837463376548331560>`)] });
 
-            if (!Stats) return Message.channel.send({embeds: [Ambulance_Embed(`Sorry but I was unable to find anything for ${Member.toString()} <:3421_pepesadfriendhug:837463376548331560>, maybe they have never sent a message.`)]});
-
-            Message.channel.send({embeds: [Level_Embed(Stats.level, Stats.xp, Stats.messages, Member.toString())]});
-        } else {
-            const Stats = Users_Database.Levels[Message.guild.id][Message.author.id];
-
-            if (!Stats) return Message.channel.send({embeds: [Ambulance_Embed("Sorry but I was unable to find anything for you. <:3421_pepesadfriendhug:837463376548331560>")]});
-
-            Message.channel.send({embeds: [Level_Embed(Stats.level, Stats.xp, Stats.messages, Message.author.toString())]});
-        };
-    }
+        Message.channel.send({ embeds: [Level_Embed(Stats.level, Stats.xp, Stats.messages, Message.author.toString())] });
+    },
 };

@@ -1,11 +1,8 @@
-const DiscordAPI = require("discord.js");
+const Discord = require("discord.js");
+const Items = require("../Core/utils/Data/Items.json");
 
-function Inventory_Embed(Status, Networth) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(":shopping_bags: Inventory :shopping_bags:")
-        .setDescription(Status)
-        .setFooter(`You have a networth of ${Networth}.`)
-        .setColor(Global_Embed_Color);
+function Inventory_Embed(Status) {
+    const Embed = new Discord.MessageEmbed().setTitle(":shopping_bags: Inventory :shopping_bags:").setDescription(Status).setColor(Global_Embed_Color);
 
     return Embed;
 }
@@ -19,23 +16,26 @@ module.exports = {
     description: "Lists all the items in your inventory!",
 
     async execute(Message, Message_Args, Client) {
-        var Status = "";
-        var Networth = 0;
+        let Status = "";
 
-        if (Users_Database.Currency[Message.author.id].inventory.length <= 0) {
+        if (Global_Databases.Users[Message.author.id].inventory.length <= 0) {
             Status = "You have no items in your **inventory**.";
         } else {
-            Status = `${Message.author.toString()}, you have **${Users_Database.Currency[Message.author.id].inventory.length}** items in your inventory.`;
+            let Items_String = "";
+            let Networth = 0;
 
-            Users_Database.Currency[Message.author.id].inventory.forEach(Item => {
-                Status = `${Status}\n\n${Item.emoji} **${Item.name}**${Item.description != null ? `\nDescription: ${Item.description}` : ""}${Item.price != null ? `\nPrice: ${Item.price}:coin:` : ""}`;
+            Global_Databases.Users[Message.author.id].inventory.forEach((Item) => {
+                Item = Items.find(Gotten_Item => Gotten_Item.Name.toLowerCase() === Item.toLowerCase());
 
-                if (Item.price && parseInt(Item.price)) {
-                    Networth += parseInt(Item.price);
-                }
+                if (!Item) return;
+
+                Items_String = `${Items_String}\n\n${Item.Emoji} **${Item.Name}**${Item.Description ? `\nDescription: ${Item.Description}` : ""}${Item.Price ? `\nPrice: ${Item.Price}:coin:` : ""}`;
+                Networth += Item.Price && Item.Price > 0 ? Item.Price : 0;
             });
-        };
 
-        Message.channel.send({embeds: [Inventory_Embed(Status, Networth)]});
-    }
+            Status = `${Message.author.toString()}, you have **${Global_Databases.Users[Message.author.id].inventory.length}** items in your inventory and a networth of **${Networth}**:coin:.${Items_String}`;
+        }
+
+        Message.channel.send({ embeds: [Inventory_Embed(Status)] });
+    },
 };

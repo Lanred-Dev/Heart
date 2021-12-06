@@ -1,32 +1,46 @@
+const Discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Pepes = {
-    dance: "https://tenor.com/view/frog-memes-dank-funny-pepe-the-frog-gif-15299640",
-    bonk: "https://tenor.com/view/anime-pepe-the-frog-hammer-smash-meme-gif-12409029",
-    hacker: "https://tenor.com/view/anonymous-anonymous-bites-back-geek-pepe-pepe-matrix-gif-14778477",
-    jam: "https://tenor.com/view/pepe-pepe-the-frog-listening-to-music-dance-grooving-gif-16927052",
-    love: "https://tenor.com/view/pepe-the-frog-pepe-hearts-love-sending-love-gif-17602490",
-    gun: "https://tenor.com/view/pepe-pepe-the-frog-gun-shooting-sweating-gif-17809200",
-    reeee: "https://tenor.com/view/rage-gun-frog-reeee-pepe-gif-17082141",
-    re: "https://tenor.com/view/rage-gun-frog-reeee-pepe-gif-17082141",
-    ree: "https://tenor.com/view/rage-gun-frog-reeee-pepe-gif-17082141",
-    wildwest: "https://tenor.com/view/pepe-the-frog-pepe-shooting-gun-gif-17813085",
-    hypers: "https://tenor.com/view/fortnite-pepe-the-frog-dancing-gif-17857141"
+    moab:[ "https://www.pinterest.com/pin/205687907969035088/", "no no this is to dangerous for you"],
+    hacker: ["https://www.pinterest.com/pin/745205069586337565/", "HACK THE MAIN FRAME!!!"],
+    plankton: ["https://www.pinterest.com/pin/50524827049916337/", "i never got the formula"],
+    luminati: ["https://www.pinterest.com/pin/811281320361068916/", "ITS THE SPACE ALIENS!"],
+    pepsi: ["https://www.pinterest.com/pin/737957088921743708/", "worst drink ever"],
+    hehe: ["https://www.pinterest.com/pin/748582769302238059/", "hehe"],
+    you: ["https://www.pinterest.com/pin/921760248703857345/", "you rn"],
+    buff: ["https://www.pinterest.com/pin/679902874979402084/", "what you could be rn"] //download all these images
 };
-const Get_Tip = Global_Functions.Get_Tip;
+
+function Embed(Status, Image) {
+    const Embed = new Discord.MessageEmbed().setDescription(Status).setImage(Image).setColor(Global_Embed_Color);
+
+    return Embed;
+}
 
 module.exports = {
-    name: "pepe",
-    aliases: ["pepe", "frogman", "frogguy"],
+    info: new SlashCommandBuilder()
+        .setName("pepe")
+        .setDescription("Pepe! yk what I mean?")
+        .addStringOption((Option) =>
+            Option.setName("pepe")
+                .setDescription("the pepe")
+                .setRequired(false)
+                .addChoices([
+                    ["moab", "moab"],
+                    ["hacker", "hacker"],
+                    ["plankton", "plankton"],
+                    ["luminati", "luminati"],
+                    ["pepsi", "pepsi"],
+                    ["hehe", "hehe"],
+                    ["you", "you"],
+                    ["buff", "buff"]
+                ])
+        ),
     category: "fun",
-    setup: "pepe [Pepe Name]",
-    show_aliases: true,
-    secondary: ["pepe dance", "pepe bonk", "pepe hacker", "pepe jam", "pepe love", "pepe gun", "pepe reeee", "pepe wildwest"],
-    description: "Pepe the frog! yk what I mean?",
 
-    async execute(Message, Message_Args, Client) {
-        const Pepe = Message_Args.slice(0).join(" ").toLowerCase() || Pepes[0];
+    async execute(Interaction, Client) {
+        const Pepe = Interaction.options.getString("pepe") ? Pepes[Interaction.options.getString("pepe")] : Pepes[Math.floor(Math.random() * Pepes.length)];
 
-        Message.channel.send(Get_Tip(), {
-            embeds: [Pepes[Pepe]]
-        });
-    }
+        Interaction.reply({ embeds: [Embed(Pepe[1], Pepe[0])] });
+    },
 };

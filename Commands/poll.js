@@ -1,48 +1,36 @@
-const DiscordAPI = require("discord.js");
-const Option_Emojis = [
-    "1⃣",
-    "2⃣",
-    "3⃣",
-    "4⃣",
-    "5⃣",
-];
+const Discord = require("discord.js");
+const Option_Emojis = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣"];
 const Ambulance_Embed = Global_Functions.Ambulance_Embed;
 const Get_Server_Log_Channel = Global_Functions.Get_Server_Log_Channel;
 
-function Poll_Embed(Title, Duration, Status, User) {
-    const Embed = new DiscordAPI.MessageEmbed()
+function Poll_Embed(Title, Duration, Status, Moderator) {
+    const Embed = new Discord.MessageEmbed()
         .setTitle(Title)
         .setDescription(Status)
         .setColor(Global_Embed_Color)
-        .setFooter(`❤ ${User}'s poll${Duration != null ? ` • Poll duration ${Duration}s` : ""}`);
+        .setFooter(`❤ ${Moderator}'s poll${Duration ? ` • Poll duration ${Duration}s` : ""}`);
 
     return Embed;
 }
 
-function Finish_Embed(Title, Duration, Status, User) {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setTitle(`${Title}, has ended!`)
-        .setDescription(Status)
-        .setColor(Global_Embed_Color)
-        .setFooter(`❤ ${User}'s poll • Poll lasted ${Duration}s`);
+function Finish_Embed(Title, Duration, Status, Moderator) {
+    const Embed = new Discord.MessageEmbed().setTitle(`${Title}, has ended!`).setDescription(Status).setColor(Global_Embed_Color).setFooter(`❤ ${Moderator}'s poll • Poll lasted ${Duration}s`);
 
     return Embed;
 }
 
 function Log_Embed(Channel, Moderator) {
-    const Embed = new DiscordAPI.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
         .setTitle("🛡️ Moderator Action 🛡️")
-        .setDescription("A poll has started.")
+        .setDescription(`A poll has started been started by ${Moderator}.`)
         .setColor(Global_Embed_Color)
-        .addFields({
-            name: "Channel",
-            value: Channel,
-            inline: true
-        }, {
-            name: "Moderator",
-            value: Moderator,
-            inline: true
-        })
+        .addFields(
+            {
+                name: "Channel",
+                value: Channel,
+                inline: true,
+            }
+        )
         .setTimestamp(new Date())
         .setFooter("❤ Log");
 
@@ -106,32 +94,38 @@ module.exports = {
         const Title = Get_Title(Message.content);
         const Duration = Get_Duration(Message.content);
 
-        if (!Options || Options.length < 1) return Message.channel.send({
-            embeds: [Ambulance_Embed("Please provide poll options.")]
-        });
-        if (Options.length > 6) return Message.channel.send({
-            embeds: [Ambulance_Embed("You can only have 5 or less poll options.")]
-        });
-        if (!Title) return Message.channel.send({
-            embeds: [Ambulance_Embed("Please provide a poll title.")]
-        });
-        if (Duration && isNaN(Duration)) return Message.channel.send({
-            embeds: [Ambulance_Embed("Please provide a valid poll duration.")]
-        });
-        if (Duration && Duration < 60) return Message.channel.send({
-            embeds: [Ambulance_Embed("Poll duration has to be 60 seconds or more.")]
-        });
-        if (Duration && Duration > 172800) return Message.channel.send({
-            embeds: [Ambulance_Embed("Poll duration cannot be over 48 hours.")]
-        });
+        if (!Options || Options.length < 1)
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("Please provide poll options.")],
+            });
+        if (Options.length > 6)
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("You can only have 5 or less poll options.")],
+            });
+        if (!Title)
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("Please provide a poll title.")],
+            });
+        if (Duration && isNaN(Duration))
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("Please provide a valid poll duration.")],
+            });
+        if (Duration && Duration < 60)
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("Poll duration has to be 60 seconds or more.")],
+            });
+        if (Duration && Duration > 172800)
+            return Message.channel.send({
+                embeds: [Ambulance_Embed("Poll duration cannot be over 48 hours.")],
+            });
 
-        var Status = Description != "" ? `${Discription}\n\n` : "";
+        let Status = Description != "" ? `${Discription}\n\n` : "";
 
-        for (var Option = 0; Options.length > Option; Option++) {
+        for (let Option = 0; Options.length > Option; Option++) {
             Status = `${Status}${Option != 0 ? "\n\n" : ""}${Option_Emojis[Option]} : ${Options[Option].toString().trimStart()}`;
-        };
+        }
 
-        const Role = Moderation_Database[Message.guild.id].poll_role;
+        const Role = Global_Databases.Moderation[Message.guild.id].poll_role;
 
         if (Role) {
             const Real_Role = Message.guild.roles.cache.find((Gotten_Role) => {
@@ -140,18 +134,19 @@ module.exports = {
 
             if (Real_Role) {
                 Message.channel.send({
-                    embeds: [Real_Role.toString()]
+                    embeds: [Real_Role.toString()],
                 });
-            };
-        };
+            }
+        }
 
-        Message.channel.send({
-                embeds: [Poll_Embed(Title, Duration, Status, Message.author.tag)]
+        Message.channel
+            .send({
+                embeds: [Poll_Embed(Title, Duration, Status, Message.author.tag)],
             })
             .then(function (Poll_Message) {
-                for (var Option = 0; Options.length > Option; Option++) {
+                for (let Option = 0; Options.length > Option; Option++) {
                     Poll_Message.react(Option_Emojis[Option]);
-                };
+                }
 
                 if (!Duration) return;
 
@@ -159,11 +154,11 @@ module.exports = {
                     const Reactions = Poll_Message.reactions.cache;
                     const Winner = {
                         Count: 0,
-                        Reaction: 0
+                        Reaction: 0,
                     };
-                    var Tie = false;
+                    let Tie = false;
 
-                    for (var Option = 0; Options.length > Option; Option++) {
+                    for (let Option = 0; Options.length > Option; Option++) {
                         try {
                             const Reaction = Reactions.get(Option_Emojis[Option]);
 
@@ -175,75 +170,76 @@ module.exports = {
                                 } else if (Reaction.count === Winner.Count) {
                                     Winner.Count = Reaction.count;
                                     Tie = true;
-                                };
-                            };
+                                }
+                            }
                         } catch (Error) {
-                            console.log(`Failed to add poll reacton.\nError: ${Error}`)
-                        };
-                    };
+                            console.log(`Failed to add poll reacton.\nError: ${Error}`);
+                        }
+                    }
 
                     if (Tie != true) {
-                        var Finish_Status = Description != "" ? `${Discription}\n\n` : "";
-                        var Total_Vote_Count = 0;
+                        let Finish_Status = Description != "" ? `${Discription}\n\n` : "";
+                        let Total_Vote_Count = 0;
 
-                        for (var Option = 0; Options.length > Option; Option++) {
+                        for (let Option = 0; Options.length > Option; Option++) {
                             try {
                                 const Reaction = Reactions.get(Option_Emojis[Option]);
 
                                 if (Reaction) {
                                     Total_Vote_Count += Reaction.count;
-                                };
+                                }
                             } catch (Error) {
                                 console.log(`Failed to get poll reaction.\nError: ${Error}`);
-                            };
-                        };
+                            }
+                        }
 
                         Finish_Status = `${Finish_Status}${Winner.Reaction} won the [poll](${Poll_Message.url}) with **${Winner.Count}** votes or **${Math.floor((Winner.Count / Total_Vote_Count) * 100)}%** of the total votes!`;
 
                         Message.channel.send({
-                            embeds: [Finish_Embed(Title, Duration, Finish_Status, Message.author.tag)]
+                            embeds: [Finish_Embed(Title, Duration, Finish_Status, Message.author.tag)],
                         });
                     } else {
-                        var Finish_Status = Description != "" ? `${Discription}\n\nWe have a tie between ` : "We have a tie between";
-                        var Ties = [];
+                        let Finish_Status = Description != "" ? `${Discription}\n\nWe have a tie between ` : "We have a tie between";
+                        let Ties = [];
 
-                        for (var Option = 0; Options.length > Option; Option++) {
+                        for (let Option = 0; Options.length > Option; Option++) {
                             try {
-                                var Reaction = Reactions.get(Option_Emojis[Option]);
+                                let Reaction = Reactions.get(Option_Emojis[Option]);
 
                                 if (Reaction) {
                                     if (Reaction.count === Winner.Count) {
                                         Ties.push(Option_Emojis[Option]);
-                                    };
-                                };
+                                    }
+                                }
                             } catch (Error) {
                                 console.log(`Failed to get poll reaction.\nError: ${Error}`);
-                            };
-                        };
+                            }
+                        }
 
-                        for (var Tie = 0; Ties.length > Tie; Tie++) {
+                        for (let Tie = 0; Ties.length > Tie; Tie++) {
                             if (Tie === 0) {
                                 Finish_Status = `${Finish_Status}${Ties[Tie]}`;
                             } else if (Tie === Ties.length - 1) {
                                 Finish_Status = `${Finish_Status} and ${Ties[Tie]}`;
                             } else {
                                 Finish_Status = `${Finish_Status}, ${Ties[Tie]}`;
-                            };
-                        };
+                            }
+                        }
 
                         Finish_Status = `${Finish_Status}.`;
 
                         Message.channel.send({
-                            embeds: [Finish_Embed(Title, Duration, Finish_Status, Message.author.tag)]
+                            embeds: [Finish_Embed(Title, Duration, Finish_Status, Message.author.tag)],
                         });
-                    };
+                    }
                 }, 1000 * Duration);
             });
 
         const Log_Channel = Get_Server_Log_Channel(Message.guild);
 
-        if (Log_Channel) Log_Channel.send({
-            embeds: [Log_Embed(Message.channel.toString(), Message.author.toString())]
-        });
-    }
+        if (Log_Channel)
+            Log_Channel.send({
+                embeds: [Log_Embed(Message.channel.toString(), Message.author.toString())],
+            });
+    },
 };

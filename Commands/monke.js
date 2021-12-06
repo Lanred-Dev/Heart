@@ -1,46 +1,46 @@
-const DiscordAPI = require("discord.js");
-const CanvasAPI = require("canvas");
+const Discord = require("discord.js");
+const Canvas = require("canvas");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const Get_Member = Global_Functions.Get_Member;
 
-function Monke_Embed() {
-    const Embed = new DiscordAPI.MessageEmbed()
-        .setDescription("you monke?")
-        .setImage("attachment://monke.png")
-        .setColor(Global_Embed_Color);
+function Embed() {
+    const Embed = new Discord.MessageEmbed().setDescription("you monke?").setImage("attachment://monke.png").setColor(Global_Embed_Color);
 
     return Embed;
 }
 
 module.exports = {
-    name: "monke",
-    aliases: ["monkey", "minke"],
+    info: new SlashCommandBuilder()
+        .setName("monke")
+        .setDescription("we like monke")
+        .addUserOption((Option) => Option.setName("user").setDescription("The user").setRequired(false)),
     category: "meme",
-    setup: "monke [User]",
-    show_aliases: true,
-    description: "We like *monke*.",
 
-    async execute(Message, Message_Args, Client) {
-        const Member = Get_Member(Message, Message_Args, true);
+    async execute(Interation, Client) {
+        const Member = Get_Member(Interation, true, false);
 
         if (!Member) return;
 
-        const Canvas = CanvasAPI.createCanvas(224, 224);
-        const Context = Canvas.getContext("2d");
-        const Background = await CanvasAPI.loadImage("Core/Assets/Monke.png");
+        const Image_Canvas = Canvas.createCanvas(224, 224);
+        const Context = Image_Canvas.getContext("2d");
+        const Background = await Canvas.loadImage("Core/Assets/Monke.png");
 
         Context.drawImage(Background, 0, 0, 244, 224);
 
-        const Avatar = await CanvasAPI.loadImage(Member.user.displayAvatarURL({
-            format: "jpg"
-        }));
+        const Avatar = await Canvas.loadImage(
+            Member.user.displayAvatarURL({
+                format: "jpg",
+            })
+        );
 
         Context.translate(87 + 83 / 2, 37 + 83 / 2);
         Context.rotate(25 * (Math.PI / 180));
         Context.translate(-87 - 83 / 2, -37 - 83 / 2);
         Context.drawImage(Avatar, 87, 37, 83, 83);
-        Message.channel.send({
-            embeds: [Monke_Embed()],
-            files: [new DiscordAPI.MessageAttachment(Canvas.toBuffer(), "monke.png")]
+
+        Interation.reply({
+            embeds: [Embed()],
+            files: [new Discord.MessageAttachment(Image_Canvas.toBuffer(), "monke.png")],
         });
-    }
+    },
 };
