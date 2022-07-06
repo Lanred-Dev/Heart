@@ -1,5 +1,5 @@
 # Heart - The Discord Bot For You
-Source code for the Heart bot. Code is not to be redistributed or used in any way.
+Source code for the Heart bot.
 
 ---
 
